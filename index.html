@@ -181,7 +181,7 @@ details[open] summary::before{content:"▼ "}
  <div class="sec-lbl">Cost of capital</div>
  <div class="g3" style="margin-bottom:14px">
  <div class="field"><label>Total asset value ($)</label>
-  <input type="number" id="fc_asset_val" value="850000" step="10000" class="fix-inp" onchange="recalc()">
+  <input type="number" id="fc_asset_val" value="500000" step="10000" class="fix-inp" onchange="recalc()">
   <span class="field-hint">Equipment + orchard infrastructure (not land). Use current market value, not book value.</span>
  </div>
  <div class="field"><label>Rate (%) — opportunity cost or interest rate</label>
@@ -195,14 +195,14 @@ details[open] summary::before{content:"▼ "}
  </div>
  <div class="sec-lbl">Other farm-wide fixed costs</div>
  <div class="g3" style="margin-bottom:10px">
- <div class="field"><label>Irrigation (total farm)</label><input type="number" id="fc_irrig" value="18000" step="500" class="fix-inp" onchange="recalc()"></div>
- <div class="field"><label>Housing</label><input type="number" id="fc_housing" value="0" step="500" class="fix-inp" onchange="recalc()"></div>
- <div class="field"><label>Machinery replacement reserve</label><input type="number" id="fc_deprec" value="0" step="500" class="fix-inp" onchange="recalc()">
+ <div class="field"><label>Irrigation (total farm)</label><input type="number" id="fc_irrig" value="40000" step="500" class="fix-inp" onchange="recalc()"></div>
+ <div class="field"><label>Housing</label><input type="number" id="fc_housing" value="40000" step="500" class="fix-inp" onchange="recalc()"></div>
+ <div class="field"><label>Machinery replacement reserve</label><input type="number" id="fc_deprec" value="20000" step="500" class="fix-inp" onchange="recalc()">
   <span class="field-hint">Annual cost of replacing/overhauling equipment — not tax depreciation</span>
  </div>
- <div class="field"><label>Management &amp; admin</label><input type="number" id="fc_mgmt" value="28000" step="1000" class="fix-inp" onchange="recalc()"></div>
- <div class="field"><label>Farm insurance</label><input type="number" id="fc_insur" value="12000" step="1000" class="fix-inp" onchange="recalc()"></div>
- <div class="field"><label>Other shared fixed</label><input type="number" id="fc_other" value="8000" step="1000" class="fix-inp" onchange="recalc()"></div>
+ <div class="field"><label>Management &amp; admin</label><input type="number" id="fc_mgmt" value="70000" step="1000" class="fix-inp" onchange="recalc()"></div>
+ <div class="field"><label>Farm insurance</label><input type="number" id="fc_insur" value="64000" step="1000" class="fix-inp" onchange="recalc()"></div>
+ <div class="field"><label>Other shared fixed</label><input type="number" id="fc_other" value="98000" step="1000" class="fix-inp" onchange="recalc()"></div>
  </div>
  <div style="margin-top:10px;font-size:0.78rem;color:var(--slate);display:flex;gap:24px;flex-wrap:wrap">
  <span>Total farm fixed costs: <strong id="fc_total_disp">—</strong></span>
@@ -298,13 +298,28 @@ details[open] summary::before{content:"▼ "}
 <script>
 // ── Data ──────────────────────────────────────────────────────────────────────
 let blocks = [
- {id:0,excluded:false,name:"Block 1",crop:"Cherry",acres:0,
-  vc_labor:0,vc_spray:0,vc_fert:0,vc_harvest:0,vc_misc:0,
-  lc_land:0,lc_other:0,
-  ch_yield:0,ch_price:0,
+ {id:0,excluded:false,name:"Sweetheart Brine",crop:"Cherry",acres:4.5,
+  vc_labor:1177,vc_spray:45,vc_fert:130,vc_harvest:7000,vc_misc:0,
+  lc_land:700,lc_other:0,
+  ch_yield:20000,ch_price:0.78,
   pe_yield_bins:0,pe_price_bin:0},
+ {id:1,excluded:false,name:"3 Mile Bing",crop:"Cherry",acres:5,
+  vc_labor:1457,vc_spray:60,vc_fert:130,vc_harvest:3150,vc_misc:0,
+  lc_land:700,lc_other:0,
+  ch_yield:9000,ch_price:0.95,
+  pe_yield_bins:45,pe_price_bin:250},
+ {id:2,excluded:false,name:"Summit Black Pearl",crop:"Cherry",acres:10,
+  vc_labor:1088,vc_spray:50,vc_fert:130,vc_harvest:2520,vc_misc:0,
+  lc_land:700,lc_other:0,
+  ch_yield:7200,ch_price:1.3,
+  pe_yield_bins:45,pe_price_bin:250},
+ {id:3,excluded:false,name:"everything else average",crop:"Cherry",acres:75,
+  vc_labor:1241,vc_spray:60,vc_fert:130,vc_harvest:3500,vc_misc:0,
+  lc_land:700,lc_other:0,
+  ch_yield:10000,ch_price:0.95,
+  pe_yield_bins:45,pe_price_bin:250},
 ];
-let nextId=1;
+let nextId=4;
 let activeCherryBlock=-1;
 let activePearBlock=-1;
 let activeRemovalBlock=0;
@@ -889,5 +904,7 @@ function loadJSON(input){
 
 recalc();
 </script>
+<script data-goatcounter="https://timdelbridge.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
