@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orchard Block Decision Tool</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --forest:#1a3a28;--pine:#2d5a3d;--sage:#4a7c59;--meadow:#6aa876;
+ --cream:#faf8f3;--wheat:#f0ead8;--amber:#c9622f;--gold:#d4962a;
+ --charcoal:#1e1e1e;--slate:#4a5568;--mist:#e8f0eb;
+ --cherry:#7b1fa2;--cherry-light:#f3e5f5;--cherry-mid:#9c27b0;
+ --pear:#2e7d32;--pear-light:#e8f5e9;--pear-mid:#388e3c;
+ --fix-bg:#fff8f0;--fix-accent:#c65911;
+ --var-bg:#f0f7ff;--var-accent:#1a5fa8;
+ --radius:8px;--shadow:0 2px 12px rgba(26,58,40,0.10);
+}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--cream);color:var(--charcoal);min-height:100vh;font-size:14px}
+/* Header */
+.header{background:var(--forest);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:60px;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100}
+.header-title{font-size:1.2rem;font-weight:700;color:#fff;letter-spacing:-.3px}
+.header-sub{font-size:0.72rem;color:var(--meadow);text-transform:uppercase;letter-spacing:.5px}
+/* Tab bar */
+.tabbar{display:flex;background:var(--forest);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 28px}
+.tabbar-btn{padding:10px 20px;font-size:0.83rem;font-weight:600;color:rgba(255,255,255,0.55);cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;border-top:none;border-left:none;border-right:none;background:none;letter-spacing:.2px}
+.tabbar-btn:hover{color:#fff}
+.tabbar-btn.active{color:#fff;border-bottom-color:var(--gold)}
+.tabbar-btn.cherry-tab.active{border-bottom-color:#ce93d8}
+.tabbar-btn.pear-tab.active{border-bottom-color:#a5d6a7}
+/* Layout */
+.main{max-width:1100px;margin:0 auto;padding:28px 24px}
+/* Sections */
+.page-title{font-size:1.5rem;font-weight:700;color:var(--forest);margin-bottom:3px}
+.page-sub{font-size:0.82rem;color:var(--slate);margin-bottom:22px;line-height:1.5}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:18px;border:1px solid rgba(0,0,0,0.06)}
+.card-cherry{border-left:4px solid var(--cherry)}
+.card-pear{border-left:4px solid var(--pear)}
+.card-fixed{border-left:4px solid var(--fix-accent);background:var(--fix-bg)}
+.card-var{border-left:4px solid var(--var-accent);background:var(--var-bg)}
+.card-title{font-size:1rem;font-weight:700;color:var(--forest);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+/* Grids */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
+.g5{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:10px}
+/* Fields */
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:0.72rem;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:.4px}
+.field input,.field select{padding:7px 10px;border:1.5px solid #dde2e8;border-radius:6px;font-size:0.88rem;font-family:inherit;background:#fff;color:var(--charcoal);transition:border-color .15s}
+.field input:focus,.field select:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px rgba(74,124,89,0.1)}
+.field input.fix-inp{background:var(--fix-bg);border-color:#e8c4a0}
+.field input.var-inp{background:var(--var-bg);border-color:#b8d4f0}
+.field-hint{font-size:0.7rem;color:#999}
+/* Buttons */
+.btn{padding:8px 18px;border-radius:6px;font-size:0.82rem;font-weight:700;cursor:pointer;border:none;transition:all .15s;font-family:inherit;display:inline-flex;align-items:center;gap:5px}
+.btn-primary{background:var(--pine);color:#fff}.btn-primary:hover{background:var(--forest)}
+.btn-ghost{background:transparent;border:1.5px solid var(--sage);color:var(--pine)}.btn-ghost:hover{background:var(--mist)}
+.btn-sm{padding:5px 12px;font-size:0.75rem}
+.btn-remove{background:#fee2e2;color:#dc3545;border:none}.btn-remove:hover{background:#fecaca}
+.btn-toggle-off{background:#f0f4ff;color:#1a5fa8;border:1.5px solid #1a5fa8;font-weight:700}
+.btn-toggle-off:hover{background:#ddeeff}
+.btn-toggle-on{background:#e8f5e9;color:#2e7d32;border:1.5px solid #2e7d32;font-weight:700}
+.btn-toggle-on:hover{background:#c8e6c9}
+.block-card-excluded{opacity:0.45;border:1.5px dashed #aaa;background:#f9f9f9}
+.excluded-banner{background:#f0f0f0;border-radius:6px;padding:6px 12px;font-size:0.78rem;color:#666;margin-bottom:10px;border-left:3px solid #aaa}
+
+/* Block cards */
+.block-card{border:1px solid #e0e0e0;border-radius:var(--radius);padding:16px;margin-bottom:10px;background:#fff}
+.block-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.block-id{font-family:monospace;font-size:0.72rem;color:var(--slate);background:#f4f4f4;padding:2px 8px;border-radius:4px}
+details summary{cursor:pointer;font-size:0.78rem;color:var(--slate);padding:4px 0;list-style:none;user-select:none}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"▶ ";font-size:.6rem}
+details[open] summary::before{content:"▼ "}
+/* Section label */
+.sec-lbl{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--slate);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-lbl::after{content:'';flex:1;height:1px;background:#e8e8e8}
+/* Badges */
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:0.68rem;font-weight:700}
+.badge-var{background:#ddeeff;color:var(--var-accent)}
+.badge-fix{background:#fde8d8;color:var(--fix-accent)}
+.badge-cherry{background:var(--cherry-light);color:var(--cherry)}
+.badge-pear{background:var(--pear-light);color:var(--pear)}
+/* Summary table */
+.sum-table{width:100%;border-collapse:collapse;font-size:0.8rem}
+.sum-table th{background:var(--forest);color:#fff;padding:9px 12px;text-align:left;font-size:0.72rem;text-transform:uppercase;letter-spacing:.4px;font-weight:700}
+.sum-table td{padding:9px 12px;border-bottom:1px solid #eee;vertical-align:middle}
+.sum-table tr:hover td{background:var(--mist)}
+.sum-table tr.totals td{background:var(--wheat);font-weight:700;border-top:2px solid var(--forest)}
+.num{text-align:right;font-family:monospace;font-size:0.78rem}
+.pos{color:#2e7d32}.neg{color:#c62828}.warn{color:var(--amber)}
+/* Signal */
+.signal{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:10px;font-size:0.72rem;font-weight:700}
+.sig-green{background:#d4edda;color:#155724}
+.sig-yellow{background:#fff3cd;color:#856404}
+.sig-red{background:#f8d7da;color:#721c24}
+.sig-grey{background:#eee;color:#555}
+/* Farm bars */
+.farm-bar-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:0.78rem}
+.farm-bar-row:last-child{border-bottom:none}
+.bar-name{width:120px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:8px;background:#e8e8e8;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px}
+.bar-pos{background:#4caf50}.bar-neg{background:#ef5350}
+.bar-val{width:90px;text-align:right;font-family:monospace;font-size:0.75rem}
+/* Sensitivity */
+.heat-wrap{overflow-x:auto;margin-top:8px}
+.heat-tbl{border-collapse:collapse;font-size:11px;font-family:monospace;white-space:nowrap}
+.heat-tbl th{padding:5px 10px;font-size:10px;font-weight:700;color:var(--slate);text-align:center;background:#f8f8f8;border:1px solid #e0e0e0}
+.heat-tbl td{padding:5px 10px;text-align:center;border:1px solid #e0e0e0;font-size:11px}
+.heat-lbl{text-align:right!important;background:#f8f8f8;font-weight:700;color:var(--slate)}
+.heat-current{outline:3px solid #1a1a1a;outline-offset:-2px;font-weight:700}
+.info-box{background:#f8f9fa;border-left:3px solid #ccc;padding:10px 14px;font-size:0.8rem;color:var(--slate);line-height:1.6;border-radius:0 6px 6px 0;margin-top:8px}
+.info-box strong{color:var(--charcoal)}
+/* Removal */
+.impact-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #f0f0f0;font-size:0.82rem}
+.impact-row:last-child{border-bottom:none}
+.impact-lbl{color:var(--slate)}
+.impact-val{font-family:monospace;font-weight:600}
+.decision-box{padding:14px;border-radius:var(--radius);margin-top:12px;font-size:0.82rem;line-height:1.7}
+.decision-keep{background:#d4edda;border:1px solid #c3e6cb;color:#155724}
+.decision-review{background:#fff3cd;border:1px solid #ffc107;color:#856404}
+.decision-remove{background:#f8d7da;border:1px solid #f5c6cb;color:#721c24}
+/* Block selector */
+.blk-btns{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.blk-btn{padding:5px 14px;border-radius:16px;font-size:0.78rem;font-weight:600;cursor:pointer;border:1.5px solid #ddd;background:#fff;color:var(--slate);transition:all .15s}
+.blk-btn:hover{border-color:var(--sage)}
+.blk-btn.active{background:var(--pine);color:#fff;border-color:var(--pine)}
+/* Stat cards */
+.stat-row{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.stat-card{flex:1;min-width:140px;background:#fff;border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);border-top:3px solid var(--meadow)}
+.stat-card.amber{border-top-color:var(--amber)}
+.stat-card.cherry{border-top-color:var(--cherry)}
+.stat-card.pear{border-top-color:var(--pear)}
+.stat-num{font-family:monospace;font-size:1.4rem;font-weight:700;color:var(--forest)}
+.stat-lbl{font-size:0.7rem;color:var(--slate);text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
+/* Divider */
+.divider{height:1px;background:#eee;margin:16px 0}
+/* Slider rows */
+.sl-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.sl-row label{font-size:0.75rem;color:var(--slate);width:80px;flex-shrink:0}
+.sl-row input[type=range]{flex:1}
+.sl-val{font-family:monospace;font-size:0.78rem;font-weight:700;min-width:80px;color:var(--charcoal)}
+/* Responsive */
+@media(max-width:700px){.g4{grid-template-columns:1fr 1fr}.g5{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="header">
+ <div>
+ <div class="header-title"> Orchard Block Decision Tool</div>
+ <div class="header-sub">Sweet Cherries &amp; Pears · Pacific Northwest</div>
+ </div>
+ <div style="display:flex;align-items:center;gap:10px">
+  <button class="btn btn-sm" onclick="saveJSON()" style="background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.3);font-size:0.75rem">Save data</button>
+  <label class="btn btn-sm" style="background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.3);font-size:0.75rem;cursor:pointer">Load data<input type="file" accept=".json" style="display:none" onchange="loadJSON(this)"></label>
+  <div style="font-size:0.72rem;color:var(--meadow);text-align:right">Block removal &amp; sensitivity analysis<br>Oregon State University Extension</div>
+ </div>
+</div>
+
+<div class="tabbar">
+ <button class="tabbar-btn active" onclick="showTab('setup',this)">Farm Setup</button>
+ <button class="tabbar-btn cherry-tab" onclick="showTab('cherry',this)"> Cherry Sensitivity</button>
+ <button class="tabbar-btn pear-tab" onclick="showTab('pear',this)"> Pear Sensitivity</button>
+ <button class="tabbar-btn" onclick="showTab('removal',this)">Remove a Block</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ SETUP TAB -->
+<div id="tab-setup" class="main">
+ <div class="page-title">Farm Setup</div>
+ <div class="page-sub">Enter your farm's shared fixed costs and define each orchard block. Changes update all tabs automatically.</div>
+
+ <!-- Shared fixed costs -->
+ <div class="card card-fixed">
+ <div class="card-title">Farm-wide fixed costs ($/year total)
+ <span class="badge badge-fix">Allocated to blocks by acreage</span>
+ </div>
+ <div class="info-box" style="margin-bottom:14px">These costs continue regardless of how many blocks you farm and are allocated equally per acre. When a block is removed they get spread across fewer acres, raising costs for every remaining block.</div>
+ <div class="sec-lbl">Cost of capital</div>
+ <div class="g3" style="margin-bottom:14px">
+ <div class="field"><label>Total asset value ($)</label>
+  <input type="number" id="fc_asset_val" value="500000" step="10000" class="fix-inp" onchange="recalc()">
+  <span class="field-hint">Equipment + orchard infrastructure (not land). Use current market value, not book value.</span>
+ </div>
+ <div class="field"><label>Rate (%) — opportunity cost or interest rate</label>
+  <input type="number" id="fc_opp_rate" value="5" step="0.5" min="0" max="20" class="fix-inp" onchange="recalc()">
+  <span class="field-hint">Use your actual interest rate if you carry debt, or 5% as an opportunity cost benchmark if debt-free.</span>
+ </div>
+ <div class="field"><label>Opportunity cost / interest expense (calculated)</label>
+  <input type="number" id="fc_opp_disp" readonly style="background:#fde8d8;font-weight:700;font-family:monospace">
+  <span class="field-hint">= Asset value × rate. Represents either interest paid or return forgone.</span>
+ </div>
+ </div>
+ <div class="sec-lbl">Other farm-wide fixed costs</div>
+ <div class="g3" style="margin-bottom:10px">
+ <div class="field"><label>Irrigation (total farm)</label><input type="number" id="fc_irrig" value="40000" step="500" class="fix-inp" onchange="recalc()"></div>
+ <div class="field"><label>Housing</label><input type="number" id="fc_housing" value="40000" step="500" class="fix-inp" onchange="recalc()"></div>
+ <div class="field"><label>Machinery replacement reserve</label><input type="number" id="fc_deprec" value="20000" step="500" class="fix-inp" onchange="recalc()">
+  <span class="field-hint">Annual cost of replacing/overhauling equipment — not tax depreciation</span>
+ </div>
+ <div class="field"><label>Management &amp; admin</label><input type="number" id="fc_mgmt" value="70000" step="1000" class="fix-inp" onchange="recalc()"></div>
+ <div class="field"><label>Farm insurance</label><input type="number" id="fc_insur" value="64000" step="1000" class="fix-inp" onchange="recalc()"></div>
+ <div class="field"><label>Other shared fixed</label><input type="number" id="fc_other" value="98000" step="1000" class="fix-inp" onchange="recalc()"></div>
+ </div>
+ <div style="margin-top:10px;font-size:0.78rem;color:var(--slate);display:flex;gap:24px;flex-wrap:wrap">
+ <span>Total farm fixed costs: <strong id="fc_total_disp">—</strong></span>
+ <span>Fixed cost/acre: <strong id="fc_per_acre_disp">—</strong></span>
+ <span>of which opp. cost of capital: <strong id="fc_opp_share_disp">—</strong>/acre</span>
+ </div>
+ </div>
+
+ <!-- Blocks -->
+ <div class="card">
+ <div class="card-title"> Orchard blocks</div>
+ <div id="blocks-container"></div>
+ <button class="btn btn-ghost btn-sm" onclick="addBlock()" style="margin-top:8px">+ Add block</button>
+ </div>
+
+ <!-- Farm summary -->
+ <div class="card">
+ <div class="card-title"> Farm summary</div>
+ <div class="stat-row" id="stat-cards"></div>
+ <div id="farm-bars"></div>
+ </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ CHERRY SENSITIVITY -->
+<div id="tab-cherry" class="main" style="display:none">
+ <div class="page-title" style="color:var(--cherry)"> Cherry Sensitivity Analysis</div>
+ <div class="page-sub">How does this block's profitability change across different yield and price combinations? The heatmap shows net return ($/acre) after all costs including shared fixed overhead. Green = profitable, red = loss.</div>
+
+ <div class="blk-btns" id="cherry-block-btns"></div>
+
+ <div class="card card-cherry">
+ <div class="g2" style="margin-bottom:14px">
+ <div>
+ <div class="sec-lbl">Yield range (lbs/acre)</div>
+ <div class="sl-row"><label>Minimum</label><input type="range" id="ch_y_min" min="3000" max="20000" step="500" value="7000" oninput="renderCherrySens()"><span class="sl-val" id="ch_y_min_v">7,000</span></div>
+ <div class="sl-row"><label>Maximum</label><input type="range" id="ch_y_max" min="3000" max="20000" step="500" value="21000" oninput="renderCherrySens()"><span class="sl-val" id="ch_y_max_v">21,000</span></div>
+ <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>14,000 lbs/acre</strong></div>
+ </div>
+ <div>
+ <div class="sec-lbl">Price range ($/lb)</div>
+ <div class="sl-row"><label>Minimum</label><input type="range" id="ch_p_min" min="0.30" max="2.50" step="0.05" value="0.40" oninput="renderCherrySens()"><span class="sl-val" id="ch_p_min_v">$0.40</span></div>
+ <div class="sl-row"><label>Maximum</label><input type="range" id="ch_p_max" min="0.30" max="2.50" step="0.05" value="1.60" oninput="renderCherrySens()"><span class="sl-val" id="ch_p_max_v">$1.60</span></div>
+ <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>$0.85/lb</strong></div>
+ </div>
+ </div>
+ <div class="sec-lbl">Net return ($/acre) at each yield × price combination</div>
+ <div class="heat-wrap"><div id="cherry-heat"></div></div>
+ <div class="info-box" id="cherry-sens-note" style="margin-top:12px"></div>
+ </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ PEAR SENSITIVITY -->
+<div id="tab-pear" class="main" style="display:none">
+ <div class="page-title" style="color:var(--pear)"> Pear Sensitivity Analysis</div>
+ <div class="page-sub">Pear yields expressed in bins/acre, prices in $/bin. The heatmap shows net return ($/acre) after all costs including shared fixed overhead.</div>
+
+ <div class="blk-btns" id="pear-block-btns"></div>
+
+ <div class="card card-pear">
+ <div class="g2" style="margin-bottom:14px">
+ <div>
+ <div class="sec-lbl">Yield range (bins/acre)</div>
+ <div class="sl-row"><label>Minimum</label><input type="range" id="pe_y_min" min="10" max="100" step="5" value="20" oninput="renderPearSens()"><span class="sl-val" id="pe_y_min_v">20</span></div>
+ <div class="sl-row"><label>Maximum</label><input type="range" id="pe_y_max" min="10" max="100" step="5" value="70" oninput="renderPearSens()"><span class="sl-val" id="pe_y_max_v">70</span></div>
+ <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>45 bins/acre</strong></div>
+ </div>
+ <div>
+ <div class="sec-lbl">Price range ($/bin)</div>
+ <div class="sl-row"><label>Minimum</label><input type="range" id="pe_p_min" min="50" max="500" step="10" value="100" oninput="renderPearSens()"><span class="sl-val" id="pe_p_min_v">$100</span></div>
+ <div class="sl-row"><label>Maximum</label><input type="range" id="pe_p_max" min="50" max="500" step="10" value="400" oninput="renderPearSens()"><span class="sl-val" id="pe_p_max_v">$400</span></div>
+ <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>$250/bin</strong></div>
+ </div>
+ </div>
+ <div class="sec-lbl">Net return ($/acre) at each yield × price combination</div>
+ <div class="heat-wrap"><div id="pear-heat"></div></div>
+ <div class="info-box" id="pear-sens-note" style="margin-top:12px"></div>
+ </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ REMOVAL TAB -->
+<div id="tab-removal" class="main" style="display:none">
+ <div class="page-title">Remove a Block</div>
+ <div class="page-sub">See the full impact of removing a block — variable costs that stop, fixed costs that get reallocated to remaining blocks, and the net change to whole-farm profitability.</div>
+
+ <div class="info-box" style="margin-bottom:16px">
+ <strong>Key concept:</strong> When you remove a block, its variable costs stop. But the farm's fixed costs (equipment, management, insurance) don't disappear — they get spread over fewer acres, raising per-acre overhead for every remaining block. Sometimes keeping a marginal block is better than removing it.
+ </div>
+
+ <div class="blk-btns" id="removal-block-btns"></div>
+ <div id="removal-detail"></div>
+</div>
+
+<script>
+// ── Data ──────────────────────────────────────────────────────────────────────
+let blocks = [
+ {id:0,excluded:false,name:"Sweetheart Brine",crop:"Cherry",acres:4.5,
+  vc_labor:1177,vc_spray:45,vc_fert:130,vc_harvest:7000,vc_misc:0,
+  lc_land:700,lc_other:0,
+  ch_yield:20000,ch_price:0.78,
+  pe_yield_bins:0,pe_price_bin:0},
+ {id:1,excluded:false,name:"3 Mile Bing",crop:"Cherry",acres:5,
+  vc_labor:1457,vc_spray:60,vc_fert:130,vc_harvest:3150,vc_misc:0,
+  lc_land:700,lc_other:0,
+  ch_yield:9000,ch_price:0.95,
+  pe_yield_bins:45,pe_price_bin:250},
+ {id:2,excluded:false,name:"Summit Black Pearl",crop:"Cherry",acres:10,
+  vc_labor:1088,vc_spray:50,vc_fert:130,vc_harvest:2520,vc_misc:0,
+  lc_land:700,lc_other:0,
+  ch_yield:7200,ch_price:1.3,
+  pe_yield_bins:45,pe_price_bin:250},
+ {id:3,excluded:false,name:"everything else average",crop:"Cherry",acres:75,
+  vc_labor:1241,vc_spray:60,vc_fert:130,vc_harvest:3500,vc_misc:0,
+  lc_land:700,lc_other:0,
+  ch_yield:10000,ch_price:0.95,
+  pe_yield_bins:45,pe_price_bin:250},
+];
+let nextId=4;
+let activeCherryBlock=-1;
+let activePearBlock=-1;
+let activeRemovalBlock=0;
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function gv(id){return parseFloat(document.getElementById(id)?.value)||0;}
+function oppCost(){return gv('fc_asset_val')*(gv('fc_opp_rate')/100);}
+function totalFC_base(){return oppCost()+gv('fc_irrig')+gv('fc_housing')+gv('fc_deprec')+gv('fc_mgmt')+gv('fc_insur')+gv('fc_other');}
+function totalAcres(excl=-1){return blocks.filter(b=>b.id!==excl&&!b.excluded).reduce((s,b)=>s+(+b.acres||0),0);}
+function fpa(excl=-1){const ta=totalAcres(excl);return ta>0?totalFC_base()/ta:0;}
+function totalFC(){return totalFC_base()+blocks.filter(b=>!b.excluded).reduce((s,b)=>s+(+b.lc_land||0)*(+b.acres||0),0);}
+function vc(b){return (+b.vc_labor||0)+(+b.vc_spray||0)+(+b.vc_fert||0)+(+b.vc_harvest||0)+(+b.vc_misc||0);}
+function lc(b){return (+b.lc_land||0)+(+b.lc_other||0);}
+
+function cherryRev(b,yld,price){
+ const y=yld!==undefined?yld:(+b.ch_yield||0);
+ const p=price!==undefined?price:(+b.ch_price||0);
+ return y*p;
+}
+function pearRev(b,bins,price){
+ const y=bins!==undefined?bins:(+b.pe_yield_bins||0);
+ const p=price!==undefined?price:(+b.pe_price_bin||0);
+ return y*p;
+}
+function blockRev(b){
+ return b.crop==='Cherry'?cherryRev(b):pearRev(b);
+}
+function blockNet(b,fixed_pa){
+ const f=fixed_pa!==undefined?fixed_pa:fpa();
+ return blockRev(b)-vc(b)-lc(b)-f;
+}
+
+function fmt$(n,dec=0){
+ const a=Math.abs(Math.round(n));
+ const s='$'+a.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});
+ return n<0?'('+s+')':s;
+}
+
+// ── Block rendering ───────────────────────────────────────────────────────────
+function renderBlocks(){
+ const c=document.getElementById('blocks-container');
+ c.innerHTML='';
+ blocks.forEach(b=>{
+ const isCherry=b.crop==='Cherry';
+ const d=document.createElement('div');
+ d.className='block-card'+(b.excluded?' block-card-excluded':'');
+ d.innerHTML=`
+ ${b.excluded?'<div class="excluded-banner">This block is excluded from farm totals and fixed cost calculations. All data is preserved.</div>':''}
+ <div class="block-card-header">
+ <div style="display:flex;align-items:center;gap:10px">
+ <span style="font-size:1.1rem">${isCherry?'':''}</span>
+ <input value="${b.name}" style="font-size:0.95rem;font-weight:700;border:none;border-bottom:1.5px solid #ddd;border-radius:0;padding:2px 4px;width:140px;background:transparent;color:var(--charcoal)" onchange="blocks.find(x=>x.id==${b.id}).name=this.value;recalc()">
+ <select style="font-size:0.78rem;padding:4px 8px;border-radius:6px" onchange="blocks.find(x=>x.id==${b.id}).crop=this.value;recalc()">
+ <option ${isCherry?'selected':''}>Cherry</option>
+ <option ${!isCherry?'selected':''}>Pear</option>
+ </select>
+ <span class="block-id">BLK-${String(blocks.indexOf(b)+1).padStart(2,'0')}</span>
+ </div>
+ <div style="display:flex;gap:6px;align-items:center">
+ <button class="btn btn-sm ${b.excluded?'btn-toggle-on':'btn-toggle-off'}" onclick="toggleBlock(${b.id})">${b.excluded?'Include in farm':'Exclude from farm'}</button>
+ <button class="btn btn-remove btn-sm" onclick="removeBlock(${b.id})" title="Permanently delete this block">Delete</button>
+ </div>
+ </div>
+ <div class="g4" style="margin-bottom:10px">
+ <div class="field"><label>Acres</label><input type="number" value="${b.acres}" step="0.5" onchange="blocks.find(x=>x.id==${b.id}).acres=+this.value;recalc()"></div>
+ ${isCherry?`
+ <div class="field"><label>Yield (lbs/acre)</label><input type="number" value="${b.ch_yield||6000}" step="100" onchange="blocks.find(x=>x.id==${b.id}).ch_yield=+this.value;softRecalc()"></div>
+ <div class="field"><label>Grower return price ($/lb)</label><input type="number" value="${b.ch_price||1.20}" step="0.01" onchange="blocks.find(x=>x.id==${b.id}).ch_price=+this.value;softRecalc()"></div>
+ `:`
+ <div class="field"><label>Yield (bins/acre)</label><input type="number" value="${b.pe_yield_bins||40}" step="1" onchange="blocks.find(x=>x.id==${b.id}).pe_yield_bins=+this.value;softRecalc()"></div>
+ <div class="field"><label>Grower return price ($/bin)</label><input type="number" value="${b.pe_price_bin||250}" step="5" onchange="blocks.find(x=>x.id==${b.id}).pe_price_bin=+this.value;softRecalc()"></div>
+ `}
+ </div>
+ <details data-block-id="${b.id}">
+ <summary>Cost details (variable &amp; block-level fixed) — click to expand</summary>
+ <div style="margin-top:10px">
+ <div class="sec-lbl">Variable costs ($/acre) <span class="badge badge-var">stop when block removed</span></div>
+ <div class="g3" style="margin-bottom:10px">
+ <div class="field"><label>Non-harvest labor</label><input type="number" value="${b.vc_labor||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_labor=+this.value;softRecalc()"></div>
+ <div class="field"><label>Chemicals</label><input type="number" value="${b.vc_spray||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_spray=+this.value;softRecalc()"></div>
+ <div class="field"><label>Fertilizer</label><input type="number" value="${b.vc_fert||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_fert=+this.value;softRecalc()"></div>
+ </div>
+ <div class="g3" style="margin-bottom:6px">
+ <div class="field"><label>Harvest</label><input type="number" value="${b.vc_harvest||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_harvest=+this.value;softRecalc()"></div>
+ <div class="field"><label>Misc variable</label><input type="number" value="${b.vc_misc||0}" step="5" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_misc=+this.value;softRecalc()"></div>
+ </div>
+ <div class="g2" style="margin-bottom:6px">
+ <div class="field"><label>Total variable cost/acre</label><input readonly value="${fmt$(vc(b))}" data-vc-total="${b.id}" style="background:#e8f4fd;font-weight:700;font-family:monospace"></div>
+ </div>
+ <div class="sec-lbl" style="margin-top:10px">Block-level fixed costs ($/acre)</div>
+ <div class="g2">
+ <div class="field"><label>Land rent / opportunity cost</label>
+  <input type="number" value="${b.lc_land||0}" step="10" class="fix-inp" onchange="blocks.find(x=>x.id==${b.id}).lc_land=+this.value;softRecalc()">
+  <span class="field-hint">Cash rent or opportunity cost of owned land</span>
+ </div>
+ <div class="field"><label>Other block-specific fixed</label>
+  <input type="number" value="${b.lc_other||0}" step="10" class="fix-inp" onchange="blocks.find(x=>x.id==${b.id}).lc_other=+this.value;softRecalc()">
+  <span class="field-hint">e.g. crop insurance, irrigation district fees</span>
+ </div>
+ </div>
+ </div>
+ </details>`;
+ c.appendChild(d);
+ });
+}
+
+function renderFarmSummary(){
+ const f=fpa();
+ const ta=totalAcres();
+ const tfc=totalFC();
+ const farmNet=blocks.filter(b=>!b.excluded).reduce((s,b)=>s+blockNet(b,f)*(+b.acres||0),0);
+ document.getElementById('fc_total_disp').textContent=fmt$(tfc);
+ document.getElementById('fc_per_acre_disp').textContent=fmt$(Math.round(f));
+ const oppC=oppCost();
+ if(document.getElementById('fc_opp_disp'))document.getElementById('fc_opp_disp').value=Math.round(oppC);
+ if(document.getElementById('fc_opp_share_disp'))document.getElementById('fc_opp_share_disp').textContent=ta>0?fmt$(Math.round(oppC/ta)):'—';
+
+ document.getElementById('stat-cards').innerHTML=`
+ <div class="stat-card"><div class="stat-num">${ta.toFixed(1)}</div><div class="stat-lbl">Total acres</div></div>
+ <div class="stat-card amber"><div class="stat-num">${fmt$(Math.round(f))}</div><div class="stat-lbl">Fixed cost/acre</div></div>
+ <div class="stat-card"><div class="stat-num">${blocks.filter(b=>b.crop==='Cherry').length}</div><div class="stat-lbl">Cherry blocks</div></div>
+ <div class="stat-card pear"><div class="stat-num">${blocks.filter(b=>b.crop==='Pear').length}</div><div class="stat-lbl">Pear blocks</div></div>
+ <div class="stat-card ${farmNet>=0?'':'amber'}"><div class="stat-num ${farmNet>=0?'pos':'neg'}">${fmt$(Math.round(farmNet))}</div><div class="stat-lbl">Farm net return</div></div>`;
+
+ const activeBlocks=blocks.filter(b=>!b.excluded);
+ const nets=blocks.map(b=>b.excluded?null:blockNet(b,f)*(+b.acres||0));
+ const maxAbs=Math.max(1,...nets.filter(n=>n!==null).map(Math.abs));
+ document.getElementById('farm-bars').innerHTML=blocks.map((b,i)=>{
+ const n=nets[i];
+ const excl=b.excluded;
+ const activeCount=blocks.filter(x=>!x.excluded).length;
+ const pct=n!==null?Math.min(100,Math.abs(n)/Math.max(1,maxAbs)*100):0;
+ const toggleBtn=excl
+  ?`<button class="btn btn-sm btn-toggle-on" onclick="toggleBlock(${b.id})" style="padding:3px 10px;font-size:0.7rem">+ Include</button>`
+  :`<button class="btn btn-sm btn-toggle-off" onclick="toggleBlock(${b.id})" style="padding:3px 10px;font-size:0.7rem;${activeCount<=1?'opacity:0.4;cursor:not-allowed':''}">Exclude</button>`;
+ return `<div class="farm-bar-row" style="${excl?'opacity:0.38;':''}">
+ <div class="bar-name">${b.name}</div>
+ <div style="font-size:0.72rem;color:var(--slate);width:50px;text-align:right;font-family:monospace">${b.acres}ac</div>
+ <div class="bar-track"><div class="bar-fill ${n!==null&&n>=0?'bar-pos':'bar-neg'}" style="width:${pct.toFixed(1)}%"></div></div>
+ <div class="bar-val ${n!==null&&n>=0?'pos':'neg'}">${n!==null?fmt$(Math.round(n)):'-'}</div>
+ <div style="width:90px;text-align:right">${toggleBtn}</div>
+ </div>`;
+ }).join('');
+}
+
+function netSignal(net,vc_val){
+ if(vc_val>0&&net<-vc_val)return`<span class="signal sig-red">Remove</span>`;
+ if(net<0)return`<span class="signal sig-yellow">Review</span>`;
+ return`<span class="signal sig-green">Keep</span>`;
+}
+
+// ── Heat map generator ────────────────────────────────────────────────────────
+function heatColor(net,minNet,maxNet){
+ if(net>=0){
+ const i=Math.min(1,net/Math.max(1,maxNet));
+ return{bg:`rgb(${Math.round(220-i*60)},${Math.round(230+i*25)},${Math.round(210-i*50)})`,txt:'#173404'};
+ } else {
+ const i=Math.min(1,Math.abs(net)/Math.max(1,Math.abs(minNet)));
+ return{bg:`rgb(${Math.round(230+i*25)},${Math.round(200-i*80)},${Math.round(200-i*80)})`,txt:'#501313'};
+ }
+}
+
+function buildHeatmap(b,yields,prices,revFn,yFmt,pFmt,currentY,currentP){
+ const f=fpa();
+ const costs=vc(b)+lc(b)+f;
+ const grid=prices.map(p=>yields.map(y=>revFn(b,y,p)-costs));
+ const allNets=grid.flat();
+ const minNet=Math.min(...allNets),maxNet=Math.max(...allNets);
+
+ let html=`<table class="heat-tbl"><thead><tr><th style="min-width:80px">Price ↓ / Yield →</th>`;
+ yields.forEach(y=>html+=`<th>${yFmt(y)}</th>`);
+ html+=`</tr></thead><tbody>`;
+ prices.forEach((p,pi)=>{
+ html+=`<tr><td class="heat-lbl">${pFmt(p)}</td>`;
+ yields.forEach((y,yi)=>{
+ const net=grid[pi][yi];
+ const{bg,txt}=heatColor(net,minNet,maxNet);
+ const isCur=Math.abs(y-currentY)<(yields[1]-yields[0])*0.6&&Math.abs(p-currentP)<(prices[1]-prices[0])*0.6;
+ html+=`<td style="background:${bg};color:${txt}" class="${isCur?'heat-current':''}">${fmt$(Math.round(net))}</td>`;
+ });
+ html+=`</tr>`;
+ });
+ html+=`</tbody></table>`;
+ return{html,grid,allNets,minNet,maxNet,costs};
+}
+
+// ── Cherry sensitivity ────────────────────────────────────────────────────────
+function renderCherrySens(){
+ const cherryBlocks=blocks.filter(b=>b.crop==='Cherry');
+ if(!cherryBlocks.length){
+ document.getElementById('cherry-heat').innerHTML=`<div class="info-box">No cherry blocks defined. Add a cherry block in Farm Setup.</div>`;
+ return;
+ }
+ if(activeCherryBlock<0||!cherryBlocks.find(b=>b.id===activeCherryBlock))
+ activeCherryBlock=cherryBlocks[0].id;
+
+ // Block buttons
+ document.getElementById('cherry-block-btns').innerHTML=cherryBlocks.map(b=>
+ `<button class="blk-btn ${b.id===activeCherryBlock?'active':''}" onclick="activeCherryBlock=${b.id};renderCherrySens()" style="${b.excluded?'opacity:0.5;text-decoration:line-through':''}">${b.name} (${b.acres}ac)${b.excluded?' [excluded]':''}</button>`
+ ).join('');
+
+ const b=cherryBlocks.find(x=>x.id===activeCherryBlock);
+ const yMin=gv('ch_y_min'),yMax=gv('ch_y_max');
+ const pMin=gv('ch_p_min'),pMax=gv('ch_p_max');
+
+ document.getElementById('ch_y_min_v').textContent=yMin.toLocaleString()+' lbs';
+ document.getElementById('ch_y_max_v').textContent=yMax.toLocaleString()+' lbs';
+ document.getElementById('ch_p_min_v').textContent='$'+pMin.toFixed(2);
+ document.getElementById('ch_p_max_v').textContent='$'+pMax.toFixed(2);
+
+ // 7 steps each
+ const yStep=Math.round((yMax-yMin)/6/500)*500||500;
+ const pStep=Math.round(((pMax-pMin)/6)*20)/20||0.05;
+ const yields=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round((yMin+i*yStep)/500)*500))];
+ const prices=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round((pMin+i*pStep)*20)/20))];
+
+ const currentY=+b.ch_yield||14000;
+ const currentP=+b.ch_price||0.85;
+
+ const{html,grid,allNets,costs}=buildHeatmap(b,yields,prices,
+ (bl,y,p)=>cherryRev(bl,y,p),
+ y=>y.toLocaleString()+' lbs',
+ p=>'$'+p.toFixed(2),
+ currentY,currentP);
+
+ document.getElementById('cherry-heat').innerHTML=html;
+
+ const profPct=Math.round(allNets.filter(n=>n>=0).length/allNets.length*100);
+ const varOnly=vc(b);
+ const bePrice=varOnly>0&&currentY>0?(varOnly/currentY).toFixed(3):'—';
+ const fullBe=costs>0&&currentY>0?(costs/currentY).toFixed(3):'—';
+
+ document.getElementById('cherry-sens-note').innerHTML=
+ `<strong>${b.name}</strong> is profitable in <strong>${profPct}%</strong> of yield/price combinations shown. &nbsp;
+ Break-even price (variable costs only): <strong>$${bePrice}/lb</strong> &nbsp;·&nbsp;
+ Break-even price (all costs): <strong>$${fullBe}/lb</strong> at current yield of ${currentY.toLocaleString()} lbs/acre.
+ <br>Cells with a bold black border show current yield &amp; price assumptions. 
+ The mid-range benchmarks (14,000 lbs/acre · $0.85/lb) reflect typical Washington/Oregon range — 
+ use the sliders to focus the analysis on your farm's realistic range.`;
+}
+
+// ── Pear sensitivity ──────────────────────────────────────────────────────────
+function renderPearSens(){
+ const pearBlocks=blocks.filter(b=>b.crop==='Pear');
+ if(!pearBlocks.length){
+ document.getElementById('pear-heat').innerHTML=`<div class="info-box">No pear blocks defined. Add a pear block in Farm Setup.</div>`;
+ return;
+ }
+ if(activePearBlock<0||!pearBlocks.find(b=>b.id===activePearBlock))
+ activePearBlock=pearBlocks[0].id;
+
+ document.getElementById('pear-block-btns').innerHTML=pearBlocks.map(b=>
+ `<button class="blk-btn ${b.id===activePearBlock?'active':''}" onclick="activePearBlock=${b.id};renderPearSens()" style="${b.excluded?'opacity:0.5;text-decoration:line-through':''}">${b.name} (${b.acres}ac)${b.excluded?' [excluded]':''}</button>`
+ ).join('');
+
+ const b=pearBlocks.find(x=>x.id===activePearBlock);
+ const yMin=gv('pe_y_min'),yMax=gv('pe_y_max');
+ const pMin=gv('pe_p_min'),pMax=gv('pe_p_max');
+
+ document.getElementById('pe_y_min_v').textContent=yMin+' bins';
+ document.getElementById('pe_y_max_v').textContent=yMax+' bins';
+ document.getElementById('pe_p_min_v').textContent='$'+pMin;
+ document.getElementById('pe_p_max_v').textContent='$'+pMax;
+
+ const yStep=Math.max(5,Math.round((yMax-yMin)/6/5)*5);
+ const pStep=Math.max(10,Math.round((pMax-pMin)/6/10)*10);
+ const yields=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round(yMin+i*yStep)))];
+ const prices=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round((pMin+i*pStep)/10)*10))];
+
+ const currentY=+b.pe_yield_bins||45;
+ const currentP=+b.pe_price_bin||250;
+
+ const{html,allNets,costs}=buildHeatmap(b,yields,prices,
+ (bl,y,p)=>pearRev(bl,y,p),
+ y=>y+' bins',
+ p=>'$'+p+'/bin',
+ currentY,currentP);
+
+ document.getElementById('pear-heat').innerHTML=html;
+
+ const profPct=Math.round(allNets.filter(n=>n>=0).length/allNets.length*100);
+ const varOnly=vc(b);
+ const beBins=varOnly>0&&currentP>0?(varOnly/currentP).toFixed(1):'—';
+ const fullBeBins=costs>0&&currentP>0?(costs/currentP).toFixed(1):'—';
+
+ document.getElementById('pear-sens-note').innerHTML=
+ `<strong>${b.name}</strong> is profitable in <strong>${profPct}%</strong> of yield/price combinations shown. &nbsp;
+ Break-even yield (variable costs only): <strong>${beBins} bins/acre</strong> &nbsp;·&nbsp;
+ Break-even yield (all costs): <strong>${fullBeBins} bins/acre</strong> at current price of $${currentP}/bin.
+ <br>Cells with a bold black border show current assumptions. 
+ Mid-range benchmarks: 45 bins/acre · $250/bin.`;
+}
+
+// ── Removal tab ───────────────────────────────────────────────────────────────
+function renderRemoval(){
+ const c=document.getElementById('removal-block-btns');
+ c.innerHTML=blocks.filter(b=>!b.excluded).map(b=>
+ `<button class="blk-btn ${b.id===activeRemovalBlock?'active':''}" onclick="activeRemovalBlock=${b.id};renderRemoval()">${b.name}</button>`
+ ).join('');
+ // If active removal block is now excluded, switch to first active
+ if(blocks.find(x=>x.id===activeRemovalBlock)?.excluded){
+   const first=blocks.find(x=>!x.excluded);
+   if(first)activeRemovalBlock=first.id;
+ }
+
+ const b=blocks.find(x=>x.id===activeRemovalBlock)||blocks[0];
+ if(!b)return;
+
+ const fpa_before=fpa();
+ const fpa_after=fpa(b.id);
+ const ta_before=totalAcres();
+ const ta_after=totalAcres(b.id);
+ const vcB=vc(b),lcB=lc(b);
+ const rev=blockRev(b);
+ const varCov=vcB>0?rev/vcB:0;
+ const fullCov=(vcB+lcB+fpa_before)>0?rev/(vcB+lcB+fpa_before):0;
+ const remaining=blocks.filter(x=>x.id!==b.id&&!x.excluded);
+ const farmBefore=blocks.filter(x=>!x.excluded).reduce((s,x)=>s+blockNet(x,fpa_before)*(+x.acres||0),0);
+ const farmAfter=remaining.reduce((s,x)=>s+blockNet(x,fpa_after)*(+x.acres||0),0);
+ const farmDelta=farmAfter-farmBefore;
+
+ // Break-even price calculations
+ // For cherry: packed yield = gross yield * packout%
+ // For pear: yield in bins, revenue = bins * grower_return_price
+ let beHarvest, beVar, beVarFixed, beTotal, beUnit, beLabel;
+ if(b.crop==='Cherry'){
+   beUnit='$/lb';
+   const chYield=+b.ch_yield||0;
+   if(chYield>0){
+     beHarvest=((+b.vc_harvest||0)/chYield);
+     beVar  =(vcB/chYield);
+     beVarFixed=((vcB+lcB)/chYield);
+     beTotal=((vcB+lcB+fpa_before)/chYield);
+   } else { beHarvest=beVar=beVarFixed=beTotal=null; }
+   beLabel=`at ${chYield.toLocaleString()} lbs/acre`;
+ } else {
+   const bins=+b.pe_yield_bins||0;
+   beUnit='$/bin';
+   if(bins>0){
+     beHarvest=((+b.vc_harvest||0)/bins);
+     beVar  =(vcB/bins);
+     beVarFixed=((vcB+lcB)/bins);
+     beTotal=((vcB+lcB+fpa_before)/bins);
+   } else { beHarvest=beVar=beVarFixed=beTotal=null; }
+   beLabel=`at ${bins} bins/acre`;
+ }
+ const fmtBE=(v,unit)=>v!==null?`$${v.toFixed(2)} ${unit}`:'—';
+ const currentPrice=b.crop==='Cherry'?(+b.ch_price||0):(+b.pe_price_bin||0);
+
+ let decision,decClass;
+ if(varCov<1){decision=`<strong>Short-run signal: consider removing.</strong> This block does not cover its own variable (out-of-pocket) costs. Every harvested acre is losing cash on inputs and labor alone, regardless of fixed costs.`;decClass='decision-remove';}
+ else if(fullCov<1){decision=`<strong>Short-run: keep producing. Long-run: review carefully.</strong> This block covers its variable costs — so it's worth harvesting this season. But it does not cover full costs including fixed overhead. Is this a temporary yield or price problem, or a structural one?`;decClass='decision-review';}
+ else{decision=`<strong>Signal: keep.</strong> This block covers all costs including its share of farm fixed overhead. It is contributing positively to whole-farm profitability.`;decClass='decision-keep';}
+
+ const fpaRisePerBlock=fpa_after-fpa_before;
+
+ document.getElementById('removal-detail').innerHTML=`
+ <div class="card ${b.crop==='Cherry'?'card-cherry':'card-pear'}">
+ <div class="card-title">${b.crop==='Cherry'?'':''} ${b.name} — ${b.acres} acres · ${b.crop}</div>
+ <div class="g2">
+ <div>
+ <div class="sec-lbl">This block's economics</div>
+ <div class="impact-row"><div class="impact-lbl">Revenue/acre</div><div class="impact-val pos">${fmt$(Math.round(rev))}</div></div>
+ <div class="impact-row"><div class="impact-lbl">Variable costs/acre</div><div class="impact-val">${fmt$(Math.round(vcB))}</div></div>
+ <div class="impact-row"><div class="impact-lbl">Land rent + other fixed costs/acre</div><div class="impact-val">${fmt$(Math.round(lcB))}</div></div>
+ <div class="impact-row"><div class="impact-lbl">Shared fixed cost/acre (current)</div><div class="impact-val">${fmt$(Math.round(fpa_before))}</div></div>
+ <div class="impact-row"><div class="impact-lbl">Net return/acre (current)</div><div class="impact-val ${blockNet(b,fpa_before)>=0?'pos':'neg'}">${fmt$(Math.round(blockNet(b,fpa_before)))}</div></div>
+ <div class="divider"></div>
+ <div class="impact-row"><div class="impact-lbl">Variable cost coverage ratio</div><div class="impact-val ${varCov>=1?'pos':'neg'}">${varCov.toFixed(2)}x ${varCov>=1?'':''}</div></div>
+ <div class="impact-row"><div class="impact-lbl">Full cost coverage ratio</div><div class="impact-val ${fullCov>=1?'pos':'neg'}">${fullCov.toFixed(2)}x ${fullCov>=1?'':''}</div></div>
+ <div class="divider"></div>
+ <div class="sec-lbl">Break-even prices (${beLabel})</div>
+ <div class="impact-row">
+   <div class="impact-lbl">Over harvest cost only
+     <div style="font-size:0.7rem;color:#999;font-weight:400">Immediate floor — below this, don't pick</div>
+   </div>
+   <div class="impact-val ${beHarvest!==null&&currentPrice>=beHarvest?'pos':'neg'}">${fmtBE(beHarvest,beUnit)}</div>
+ </div>
+ <div class="impact-row">
+   <div class="impact-lbl">Over variable costs only
+     <div style="font-size:0.7rem;color:#999;font-weight:400">Short-run floor — below this, stop producing</div>
+   </div>
+   <div class="impact-val ${beVar!==null&&currentPrice>=beVar?'pos':'neg'}">${fmtBE(beVar,beUnit)}</div>
+ </div>
+ <div class="impact-row">
+   <div class="impact-lbl">Over variable + block-level fixed costs
+     <div style="font-size:0.7rem;color:#999;font-weight:400">Covers variable costs + land rent</div>
+   </div>
+   <div class="impact-val ${beVarFixed!==null&&currentPrice>=beVarFixed?'pos':'neg'}">${fmtBE(beVarFixed,beUnit)}</div>
+ </div>
+ <div class="impact-row">
+   <div class="impact-lbl">Over total costs (incl. shared fixed)
+     <div style="font-size:0.7rem;color:#999;font-weight:400">Long-run viability threshold</div>
+   </div>
+   <div class="impact-val ${beTotal!==null&&currentPrice>=beTotal?'pos':'neg'}">${fmtBE(beTotal,beUnit)}</div>
+ </div>
+ <div class="impact-row">
+   <div class="impact-lbl">Current price</div>
+   <div class="impact-val" style="font-weight:700">$${currentPrice.toFixed(2)} ${beUnit}</div>
+ </div>
+ </div>
+ <div>
+ <div class="sec-lbl">Whole-farm ripple effect if removed</div>
+ <div class="impact-row"><div class="impact-lbl">Acres farmed: before → after</div><div class="impact-val">${ta_before.toFixed(1)} → ${ta_after.toFixed(1)} ac</div></div>
+ <div class="impact-row"><div class="impact-lbl">Fixed cost/acre: before → after</div><div class="impact-val ${fpaRisePerBlock>0?'neg':''}">${fmt$(Math.round(fpa_before))} → ${fmt$(Math.round(fpa_after))} ${fpaRisePerBlock>0?'▲':''}</div></div>
+ <div class="impact-row"><div class="impact-lbl">Overhead rise on remaining blocks</div><div class="impact-val neg">+${fmt$(Math.round(fpaRisePerBlock))}/acre</div></div>
+ <div class="divider"></div>
+ ${remaining.map(rb=>{
+ const delta=blockNet(rb,fpa_after)-blockNet(rb,fpa_before);
+ return`<div class="impact-row">
+ <div class="impact-lbl">${rb.crop==='Cherry'?'':''} ${rb.name} net/ac change</div>
+ <div class="impact-val ${delta>=0?'pos':'neg'}">${delta>=0?'+':''}${fmt$(Math.round(delta))}</div>
+ </div>`;
+ }).join('')}
+ <div class="divider"></div>
+ <div class="impact-row"><div class="impact-lbl">Farm net return before</div><div class="impact-val ${farmBefore>=0?'pos':'neg'}">${fmt$(Math.round(farmBefore))}</div></div>
+ <div class="impact-row"><div class="impact-lbl">Farm net return after removal</div><div class="impact-val ${farmAfter>=0?'pos':'neg'}">${fmt$(Math.round(farmAfter))}</div></div>
+ <div class="impact-row" style="font-weight:700"><div class="impact-lbl">Net change to farm profitability</div><div class="impact-val ${farmDelta>=0?'pos':'neg'}">${farmDelta>=0?'+':''}${fmt$(Math.round(farmDelta))}</div></div>
+ </div>
+ </div>
+ <div class="decision-box ${decClass}" style="margin-top:14px">${decision}
+ ${farmDelta<0?`<br><br><strong> Important:</strong> Even though this block may be struggling, removing it <em>reduces</em> whole-farm profitability by ${fmt$(Math.round(Math.abs(farmDelta)))} because the overhead burden on remaining blocks increases by more than the losses saved. The equipment and management costs don't go away.`
+ :`<br><br>Removing this block would <strong>${farmDelta>=0?'improve':'reduce'}</strong> whole-farm profitability by ${fmt$(Math.round(Math.abs(farmDelta)))}.`}
+ </div>
+ </div>`;
+}
+
+// ── Block management ──────────────────────────────────────────────────────────
+function avgField(crop, field, fallback){
+ const peers=blocks.filter(b=>b.crop===crop&&!b.excluded);
+ if(!peers.length)return fallback;
+ return Math.round(peers.reduce((s,b)=>s+(+b[field]||0),0)/peers.length);
+}
+function avgFieldAll(field, fallback){
+ const all=blocks.filter(b=>!b.excluded);
+ if(!all.length)return fallback;
+ return Math.round(all.reduce((s,b)=>s+(+b[field]||0),0)/all.length);
+}
+function addBlock(){
+ // Default crop: Cherry if any exist, otherwise Pear
+ const crop=blocks.some(b=>b.crop==='Cherry')?'Cherry':'Pear';
+ const peers=blocks.filter(b=>b.crop===crop&&!b.excluded);
+ const allBlocks=blocks.filter(b=>!b.excluded);
+ const n=blocks.length+1;
+ blocks.push({
+  id:nextId++,excluded:false,
+  name:`Block ${n}`,
+  crop,
+  acres: peers.length?+(peers.reduce((s,b)=>s+(+b.acres||0),0)/peers.length).toFixed(1):5,
+  vc_labor:  avgField(crop,'vc_labor',700),
+  vc_spray:  avgField(crop,'vc_spray',260),
+  vc_fert:   avgField(crop,'vc_fert',140),
+  vc_harvest:avgField(crop,'vc_harvest',160),
+  vc_misc:   avgField(crop,'vc_misc',50),
+  lc_land:   avgFieldAll('lc_land',300),
+  lc_other:  avgFieldAll('lc_other',0),
+  ch_yield:  avgField('Cherry','ch_yield',14000),
+  ch_price:  (()=>{const p=blocks.filter(b=>b.crop==='Cherry'&&!b.excluded);return p.length?+(p.reduce((s,b)=>s+(+b.ch_price||0),0)/p.length).toFixed(2):0.85;})(),
+  pe_yield_bins:avgField('Pear','pe_yield_bins',45),
+  pe_price_bin: (()=>{const p=blocks.filter(b=>b.crop==='Pear'&&!b.excluded);return p.length?Math.round(p.reduce((s,b)=>s+(+b.pe_price_bin||0),0)/p.length):250;})(),
+ });
+ recalc();
+}
+function toggleBlock(id){
+ const b=blocks.find(x=>x.id===id);
+ if(!b)return;
+ // Must keep at least one active block
+ const activeCount=blocks.filter(x=>!x.excluded).length;
+ if(!b.excluded && activeCount<=1)return;
+ b.excluded=!b.excluded;
+ recalc();
+}
+function removeBlock(id){
+ if(blocks.filter(x=>!x.excluded).length<=1 && !blocks.find(x=>x.id===id)?.excluded)return;
+ blocks=blocks.filter(b=>b.id!==id);
+ if(activeRemovalBlock===id)activeRemovalBlock=blocks.find(x=>!x.excluded)?.id||blocks[0].id;
+ recalc();
+}
+
+// ── Tab switching ─────────────────────────────────────────────────────────────
+function showTab(name,el){
+ ['setup','cherry','pear','removal'].forEach(t=>{
+ document.getElementById('tab-'+t).style.display=t===name?'block':'none';
+ });
+ document.querySelectorAll('.tabbar-btn').forEach(b=>b.classList.remove('active'));
+ el.classList.add('active');
+ if(name==='cherry')renderCherrySens();
+ if(name==='pear')renderPearSens();
+ if(name==='removal')renderRemoval();
+}
+
+// ── Main recalc ───────────────────────────────────────────────────────────────
+// softRecalc: used for field-level edits inside cost details.
+// Skips renderBlocks() so <details> elements don't collapse.
+// Updates the total vc display and all summary/tabs.
+function softRecalc(){
+ // Update each block's "Total variable cost/acre" read-only field in place
+ blocks.forEach(b=>{
+  const el=document.querySelector(`[data-vc-total="${b.id}"]`);
+  if(el)el.value=fmt$(vc(b));
+ });
+ renderFarmSummary();
+ if(document.getElementById('tab-cherry').style.display!=='none')renderCherrySens();
+ if(document.getElementById('tab-pear').style.display!=='none')renderPearSens();
+ if(document.getElementById('tab-removal').style.display!=='none')renderRemoval();
+}
+
+function recalc(){
+ // Preserve open state of all <details> elements before re-render
+ const openIds=new Set();
+ document.querySelectorAll('details[data-block-id]').forEach(d=>{
+  if(d.open)openIds.add(d.getAttribute('data-block-id'));
+ });
+ renderBlocks();
+ // Restore open state
+ document.querySelectorAll('details[data-block-id]').forEach(d=>{
+  if(openIds.has(d.getAttribute('data-block-id')))d.open=true;
+ });
+ renderFarmSummary();
+ if(document.getElementById('tab-cherry').style.display!=='none')renderCherrySens();
+ if(document.getElementById('tab-pear').style.display!=='none')renderPearSens();
+ if(document.getElementById('tab-removal').style.display!=='none')renderRemoval();
+}
+
+// ── Save / Load JSON ─────────────────────────────────────────────────────────
+function saveJSON(){
+ const farmName=prompt('Enter a name for this farm (used as filename):','My Farm');
+ if(!farmName)return;
+ const data={
+  farmName,
+  savedAt:new Date().toISOString(),
+  fixedCosts:{
+   asset_val:gv('fc_asset_val'),opp_rate:gv('fc_opp_rate'),
+   irrig:gv('fc_irrig'),housing:gv('fc_housing'),deprec:gv('fc_deprec'),
+   mgmt:gv('fc_mgmt'),insur:gv('fc_insur'),other:gv('fc_other')
+  },
+  blocks
+ };
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');
+ a.href=url;
+ a.download=(farmName.replace(/[^a-z0-9]/gi,'_').toLowerCase())+'_orchard_budget.json';
+ a.click();
+ URL.revokeObjectURL(url);
+}
+
+function loadJSON(input){
+ const file=input.files[0];
+ if(!file)return;
+ const reader=new FileReader();
+ reader.onload=function(e){
+  try{
+   const data=JSON.parse(e.target.result);
+   if(!data.blocks||!Array.isArray(data.blocks))throw new Error('Invalid file');
+   // Restore fixed costs
+   if(data.fixedCosts){
+    if(data.fixedCosts.asset_val!==undefined)document.getElementById('fc_asset_val').value=data.fixedCosts.asset_val;
+    if(data.fixedCosts.opp_rate!==undefined)document.getElementById('fc_opp_rate').value=data.fixedCosts.opp_rate;
+    if(data.fixedCosts.irrig!==undefined)document.getElementById('fc_irrig').value=data.fixedCosts.irrig;
+    if(data.fixedCosts.housing!==undefined)document.getElementById('fc_housing').value=data.fixedCosts.housing;
+    if(data.fixedCosts.deprec!==undefined)document.getElementById('fc_deprec').value=data.fixedCosts.deprec;
+    document.getElementById('fc_mgmt').value=data.fixedCosts.mgmt||0;
+    document.getElementById('fc_insur').value=data.fixedCosts.insur||0;
+    document.getElementById('fc_other').value=data.fixedCosts.other||0;
+   }
+   // Restore blocks
+   blocks=data.blocks;
+   nextId=Math.max(...blocks.map(b=>b.id))+1;
+   activeCherryBlock=-1;
+   activePearBlock=-1;
+   activeRemovalBlock=blocks.find(b=>!b.excluded)?.id||blocks[0].id;
+   recalc();
+   alert('Data loaded: '+(data.farmName||'unknown farm')+(data.savedAt?' (saved '+new Date(data.savedAt).toLocaleDateString()+')':''));
+  } catch(err){
+   alert('Could not load file. Make sure it is a valid orchard budget JSON file.');
+  }
+ };
+ reader.readAsText(file);
+ input.value='';
+}
+
+recalc();
+</script>
+<script data-goatcounter="https://timdelbridge.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
