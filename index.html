@@ -20,7 +20,7 @@
 body{font-family:'Segoe UI',Arial,sans-serif;background:var(--cream);color:var(--charcoal);min-height:100vh;font-size:14px}
 .header{background:var(--forest);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:60px;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100}
 .header-title{font-size:1.2rem;font-weight:700;color:#fff;letter-spacing:-.3px}
-.header-sub{font-size:0.72rem;color:var(--meadow);text-transform:uppercase;letter-spacing:.5px}
+.header-sub{font-size:0.72rem;color:#fff;text-transform:uppercase;letter-spacing:.5px;opacity:0.85}
 .tabbar{display:flex;background:var(--forest);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 28px}
 .tabbar-btn{padding:10px 20px;font-size:0.83rem;font-weight:600;color:rgba(255,255,255,0.55);cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;border-top:none;border-left:none;border-right:none;background:none;letter-spacing:.2px}
 .tabbar-btn:hover{color:#fff}
@@ -46,18 +46,18 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--cream);color:var(-
 .field input:focus,.field select:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px rgba(74,124,89,0.1)}
 .field input.fix-inp{background:var(--fix-bg);border-color:#e8c4a0}
 .field input.var-inp{background:var(--var-bg);border-color:#b8d4f0}
-.field-hint{font-size:0.7rem;color:#999}
+.field-hint{font-size:0.7rem;color:var(--slate)}
 .btn{padding:8px 18px;border-radius:6px;font-size:0.82rem;font-weight:700;cursor:pointer;border:none;transition:all .15s;font-family:inherit;display:inline-flex;align-items:center;gap:5px}
 .btn-primary{background:var(--pine);color:#fff}.btn-primary:hover{background:var(--forest)}
 .btn-ghost{background:transparent;border:1.5px solid var(--sage);color:var(--pine)}.btn-ghost:hover{background:var(--mist)}
 .btn-sm{padding:5px 12px;font-size:0.75rem}
-.btn-remove{background:#fee2e2;color:#dc3545;border:none}.btn-remove:hover{background:#fecaca}
+.btn-remove{background:#fee2e2;color:#8b0000;border:none}.btn-remove:hover{background:#fecaca}
 .btn-toggle-off{background:#f0f4ff;color:#1a5fa8;border:1.5px solid #1a5fa8;font-weight:700}
 .btn-toggle-off:hover{background:#ddeeff}
 .btn-toggle-on{background:#e8f5e9;color:#2e7d32;border:1.5px solid #2e7d32;font-weight:700}
 .btn-toggle-on:hover{background:#c8e6c9}
 .block-card-excluded{opacity:0.45;border:1.5px dashed #aaa;background:#f9f9f9}
-.excluded-banner{background:#f0f0f0;border-radius:6px;padding:6px 12px;font-size:0.78rem;color:#666;margin-bottom:10px;border-left:3px solid #aaa}
+.excluded-banner{background:#f0f0f0;border-radius:6px;padding:6px 12px;font-size:0.78rem;color:#333;margin-bottom:10px;border-left:3px solid #aaa}
 .block-card{border:1px solid #e0e0e0;border-radius:var(--radius);padding:16px;margin-bottom:10px;background:#fff}
 .block-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .block-id{font-family:monospace;font-size:0.72rem;color:var(--slate);background:#f4f4f4;padding:2px 8px;border-radius:4px}
@@ -68,8 +68,8 @@ details[open] summary::before{content:"▼ "}
 .sec-lbl{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--slate);margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .sec-lbl::after{content:'';flex:1;height:1px;background:#e8e8e8}
 .badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:0.68rem;font-weight:700}
-.badge-var{background:#ddeeff;color:var(--var-accent)}
-.badge-fix{background:#fde8d8;color:var(--fix-accent)}
+.badge-var{background:#ddeeff;color:#003d99}
+.badge-fix{background:#fde8d8;color:#7a3a0a}
 .pos{color:#2e7d32}.neg{color:#c62828}
 .farm-bar-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:0.78rem}
 .farm-bar-row:last-child{border-bottom:none}
@@ -84,12 +84,13 @@ details[open] summary::before{content:"▼ "}
 .heat-tbl td{padding:5px 10px;text-align:center;border:1px solid #e0e0e0;font-size:11px}
 .heat-lbl{text-align:right!important;background:#f8f8f8;font-weight:700;color:var(--slate)}
 .heat-current{outline:3px solid #1a1a1a;outline-offset:-2px;font-weight:700}
-.info-box{background:#f8f9fa;border-left:3px solid #ccc;padding:10px 14px;font-size:0.8rem;color:var(--slate);line-height:1.6;border-radius:0 6px 6px 0;margin-top:8px}
+.info-box{background:#f8f9fa;border-left:3px solid #ccc;padding:10px 14px;font-size:0.8rem;color:#333;line-height:1.6;border-radius:0 6px 6px 0;margin-top:8px}
 .info-box strong{color:var(--charcoal)}
 .impact-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #f0f0f0;font-size:0.82rem}
 .impact-row:last-child{border-bottom:none}
 .impact-lbl{color:var(--slate)}
 .impact-val{font-family:monospace;font-weight:600}
+.be-desc{font-size:0.7rem;color:#555}
 .decision-box{padding:14px;border-radius:var(--radius);margin-top:12px;font-size:0.82rem;line-height:1.7}
 .decision-keep{background:#d4edda;border:1px solid #c3e6cb;color:#155724}
 .decision-review{background:#fff3cd;border:1px solid #ffc107;color:#856404}
@@ -111,20 +112,29 @@ details[open] summary::before{content:"▼ "}
 .sl-row label{font-size:0.75rem;color:var(--slate);width:80px;flex-shrink:0}
 .sl-row input[type=range]{flex:1}
 .sl-val{font-family:monospace;font-size:0.78rem;font-weight:700;min-width:80px;color:var(--charcoal)}
+.tooltip-help{position:relative;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#e0e0e0;color:#333;font-size:0.7rem;font-weight:700;cursor:help;margin-left:4px}
+.tooltip-help:hover::after{content:attr(data-tip);position:absolute;bottom:125%;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:6px 10px;border-radius:4px;font-size:0.7rem;font-weight:400;white-space:nowrap;z-index:1000;text-transform:none}
+.tooltip-help:hover::before{content:'';position:absolute;bottom:120%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#333;z-index:1000}
 @media(max-width:700px){.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}}
 </style>
+ <!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KJV2XKTNXR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KJV2XKTNXR');
+</script>
 </head>
 <body>
 
 <div class="header">
  <div>
   <div class="header-title">Orchard Block Decision Tool</div>
-  <div class="header-sub">Tree Fruit · Pacific Northwest</div>
  </div>
  <div style="display:flex;align-items:center;gap:10px">
-  <button class="btn btn-sm" onclick="saveJSON()" style="background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.3);font-size:0.75rem">Save data</button>
-  <label class="btn btn-sm" style="background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.3);font-size:0.75rem;cursor:pointer">Load data<input type="file" accept=".json" style="display:none" onchange="loadJSON(this)"></label>
-  <div style="font-size:0.72rem;color:var(--meadow);text-align:right">Block removal &amp; sensitivity analysis<br>Oregon State University Extension</div>
+  <button class="btn btn-sm" onclick="saveCSV()" style="background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.3);font-size:0.75rem;display:flex;align-items:center;gap:6px">Save data<span class="tooltip-help" data-tip="Download your farm data as a CSV file for backup or editing">?</span></button>
+  <label class="btn btn-sm" style="background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.3);font-size:0.75rem;cursor:pointer;display:flex;align-items:center;gap:6px">Load data<span class="tooltip-help" data-tip="Upload a previously saved CSV file to restore your data">?</span><input type="file" accept=".csv" style="display:none" onchange="loadCSV(this)"></label>
  </div>
 </div>
 
@@ -150,11 +160,11 @@ details[open] summary::before{content:"▼ "}
     <input type="number" id="fc_asset_val" value="500000" step="10000" class="fix-inp" onchange="recalc()">
     <span class="field-hint">Equipment + orchard infrastructure (not land). Use current market value rather than book value.</span>
    </div>
-   <div class="field"><label>Rate (%) — opportunity cost or interest rate</label>
+   <div class="field"><label for="fc_opp_rate">Rate (%) — opportunity cost or interest rate</label>
     <input type="number" id="fc_opp_rate" value="5" step="0.5" min="0" max="20" class="fix-inp" onchange="recalc()">
     <span class="field-hint">Use your actual interest rate if you carry debt, or 5% as an opportunity cost benchmark if debt-free.</span>
    </div>
-   <div class="field"><label>Opportunity cost / interest expense (calculated)</label>
+   <div class="field"><label for="fc_opp_disp">Opportunity cost / interest expense (calculated)</label>
     <input type="number" id="fc_opp_disp" readonly style="background:#fde8d8;font-weight:700;font-family:monospace">
     <span class="field-hint">= Asset value × rate.</span>
    </div>
@@ -199,14 +209,14 @@ details[open] summary::before{content:"▼ "}
   <div class="g2" style="margin-bottom:14px">
    <div>
     <div class="sec-lbl">Yield range (lbs/acre)</div>
-    <div class="sl-row"><label>Minimum</label><input type="range" id="ch_y_min" min="3000" max="20000" step="500" value="7000" oninput="renderCherrySens()"><span class="sl-val" id="ch_y_min_v">7,000</span></div>
-    <div class="sl-row"><label>Maximum</label><input type="range" id="ch_y_max" min="3000" max="20000" step="500" value="21000" oninput="renderCherrySens()"><span class="sl-val" id="ch_y_max_v">21,000</span></div>
+    <div class="sl-row"><label for="ch_y_min">Minimum</label><input type="range" id="ch_y_min" min="3000" max="20000" step="500" value="7000" oninput="renderCherrySens()"><span class="sl-val" id="ch_y_min_v">7,000</span></div>
+    <div class="sl-row"><label for="ch_y_max">Maximum</label><input type="range" id="ch_y_max" min="3000" max="20000" step="500" value="21000" oninput="renderCherrySens()"><span class="sl-val" id="ch_y_max_v">21,000</span></div>
     <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>14,000 lbs/acre</strong></div>
    </div>
    <div>
     <div class="sec-lbl">Price range ($/lb)</div>
-    <div class="sl-row"><label>Minimum</label><input type="range" id="ch_p_min" min="0.30" max="2.50" step="0.05" value="0.40" oninput="renderCherrySens()"><span class="sl-val" id="ch_p_min_v">$0.40</span></div>
-    <div class="sl-row"><label>Maximum</label><input type="range" id="ch_p_max" min="0.30" max="2.50" step="0.05" value="1.60" oninput="renderCherrySens()"><span class="sl-val" id="ch_p_max_v">$1.60</span></div>
+    <div class="sl-row"><label for="ch_p_min">Minimum</label><input type="range" id="ch_p_min" min="0.30" max="2.50" step="0.05" value="0.40" oninput="renderCherrySens()"><span class="sl-val" id="ch_p_min_v">$0.40</span></div>
+    <div class="sl-row"><label for="ch_p_max">Maximum</label><input type="range" id="ch_p_max" min="0.30" max="2.50" step="0.05" value="1.60" oninput="renderCherrySens()"><span class="sl-val" id="ch_p_max_v">$1.60</span></div>
     <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>$0.85/lb</strong></div>
    </div>
   </div>
@@ -225,14 +235,14 @@ details[open] summary::before{content:"▼ "}
   <div class="g2" style="margin-bottom:14px">
    <div>
     <div class="sec-lbl">Yield range (bins/acre)</div>
-    <div class="sl-row"><label>Minimum</label><input type="range" id="pe_y_min" min="10" max="100" step="5" value="20" oninput="renderPearSens()"><span class="sl-val" id="pe_y_min_v">20</span></div>
-    <div class="sl-row"><label>Maximum</label><input type="range" id="pe_y_max" min="10" max="100" step="5" value="70" oninput="renderPearSens()"><span class="sl-val" id="pe_y_max_v">70</span></div>
+    <div class="sl-row"><label for="pe_y_min">Minimum</label><input type="range" id="pe_y_min" min="10" max="100" step="5" value="20" oninput="renderPearSens()"><span class="sl-val" id="pe_y_min_v">20</span></div>
+    <div class="sl-row"><label for="pe_y_max">Maximum</label><input type="range" id="pe_y_max" min="10" max="100" step="5" value="70" oninput="renderPearSens()"><span class="sl-val" id="pe_y_max_v">70</span></div>
     <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>45 bins/acre</strong></div>
    </div>
    <div>
     <div class="sec-lbl">Price range ($/bin)</div>
-    <div class="sl-row"><label>Minimum</label><input type="range" id="pe_p_min" min="50" max="500" step="10" value="100" oninput="renderPearSens()"><span class="sl-val" id="pe_p_min_v">$100</span></div>
-    <div class="sl-row"><label>Maximum</label><input type="range" id="pe_p_max" min="50" max="500" step="10" value="400" oninput="renderPearSens()"><span class="sl-val" id="pe_p_max_v">$400</span></div>
+    <div class="sl-row"><label for="pe_p_min">Minimum</label><input type="range" id="pe_p_min" min="50" max="500" step="10" value="100" oninput="renderPearSens()"><span class="sl-val" id="pe_p_min_v">$100</span></div>
+    <div class="sl-row"><label for="pe_p_max">Maximum</label><input type="range" id="pe_p_max" min="50" max="500" step="10" value="400" oninput="renderPearSens()"><span class="sl-val" id="pe_p_max_v">$400</span></div>
     <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>$250/bin</strong></div>
    </div>
   </div>
@@ -251,14 +261,14 @@ details[open] summary::before{content:"▼ "}
   <div class="g2" style="margin-bottom:14px">
    <div>
     <div class="sec-lbl">Yield range (bins/acre)</div>
-    <div class="sl-row"><label>Minimum</label><input type="range" id="ap_y_min" min="10" max="150" step="5" value="30" oninput="renderAppleSens()"><span class="sl-val" id="ap_y_min_v">30</span></div>
-    <div class="sl-row"><label>Maximum</label><input type="range" id="ap_y_max" min="10" max="150" step="5" value="90" oninput="renderAppleSens()"><span class="sl-val" id="ap_y_max_v">90</span></div>
+    <div class="sl-row"><label for="ap_y_min">Minimum</label><input type="range" id="ap_y_min" min="10" max="150" step="5" value="30" oninput="renderAppleSens()"><span class="sl-val" id="ap_y_min_v">30</span></div>
+    <div class="sl-row"><label for="ap_y_max">Maximum</label><input type="range" id="ap_y_max" min="10" max="150" step="5" value="90" oninput="renderAppleSens()"><span class="sl-val" id="ap_y_max_v">90</span></div>
     <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>60 bins/acre</strong></div>
    </div>
    <div>
     <div class="sec-lbl">Price range ($/bin)</div>
-    <div class="sl-row"><label>Minimum</label><input type="range" id="ap_p_min" min="50" max="600" step="10" value="100" oninput="renderAppleSens()"><span class="sl-val" id="ap_p_min_v">$100</span></div>
-    <div class="sl-row"><label>Maximum</label><input type="range" id="ap_p_max" min="50" max="600" step="10" value="400" oninput="renderAppleSens()"><span class="sl-val" id="ap_p_max_v">$400</span></div>
+    <div class="sl-row"><label for="ap_p_min">Minimum</label><input type="range" id="ap_p_min" min="50" max="600" step="10" value="100" oninput="renderAppleSens()"><span class="sl-val" id="ap_p_min_v">$100</span></div>
+    <div class="sl-row"><label for="ap_p_max">Maximum</label><input type="range" id="ap_p_max" min="50" max="600" step="10" value="400" oninput="renderAppleSens()"><span class="sl-val" id="ap_p_max_v">$400</span></div>
     <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>$250/bin</strong></div>
    </div>
   </div>
@@ -354,39 +364,39 @@ function renderBlocks(){
  c.innerHTML='';
  blocks.forEach(b=>{
   const isCherry=b.crop==='Cherry',isPear=b.crop==='Pear',isApple=b.crop==='Apple';
+  const uid=`block_${b.id}`; // unique ID prefix for this block
   const d=document.createElement('div');
   d.className='block-card'+(b.excluded?' block-card-excluded':'');
   d.innerHTML=`
   ${b.excluded?'<div class="excluded-banner">This block is excluded from farm totals and fixed cost calculations. All data is preserved.</div>':''}
   <div class="block-card-header">
-   <div style="display:flex;align-items:center;gap:10px">
-    
-    <input value="${b.name}" style="font-size:0.95rem;font-weight:700;border:none;border-bottom:1.5px solid #ddd;border-radius:0;padding:2px 4px;width:140px;background:transparent;color:var(--charcoal)" onchange="blocks.find(x=>x.id==${b.id}).name=this.value;recalc()">
-    <select style="font-size:0.78rem;padding:4px 8px;border-radius:6px" onchange="blocks.find(x=>x.id==${b.id}).crop=this.value;recalc()">
+   <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <input id="${uid}_name" value="${b.name}" style="font-size:0.95rem;font-weight:700;border:none;border-bottom:1.5px solid #ddd;border-radius:0;padding:2px 4px;width:140px;background:transparent;color:var(--charcoal)" onchange="blocks.find(x=>x.id==${b.id}).name=this.value;recalc()" aria-label="Block name">
+    <select id="${uid}_crop" style="font-size:0.78rem;padding:4px 8px;border-radius:6px" onchange="blocks.find(x=>x.id==${b.id}).crop=this.value;recalc()" aria-label="Crop type">
      <option ${isCherry?'selected':''}>Cherry</option>
      <option ${isPear?'selected':''}>Pear</option>
      <option ${isApple?'selected':''}>Apple</option>
     </select>
     <span class="block-id">BLK-${String(blocks.indexOf(b)+1).padStart(2,'0')}</span>
    </div>
-   <div style="display:flex;gap:6px;align-items:center">
+   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
     <button class="btn btn-sm ${b.excluded?'btn-toggle-on':'btn-toggle-off'}" onclick="toggleBlock(${b.id})">${b.excluded?'Include in farm':'Exclude from farm'}</button>
     <button class="btn btn-remove btn-sm" onclick="removeBlock(${b.id})">Delete</button>
    </div>
   </div>
   <div class="g4" style="margin-bottom:10px">
-   <div class="field"><label>Acres</label><input type="number" value="${b.acres}" step="0.5" onchange="blocks.find(x=>x.id==${b.id}).acres=+this.value;recalc()"></div>
+   <div class="field"><label for="${uid}_acres">Acres</label><input type="number" id="${uid}_acres" value="${b.acres}" step="0.5" onchange="blocks.find(x=>x.id==${b.id}).acres=+this.value;recalc()"></div>
    ${isCherry?`
-   <div class="field"><label>Yield (lbs/acre)</label><input type="number" value="${b.ch_yield||6000}" step="100" onchange="blocks.find(x=>x.id==${b.id}).ch_yield=+this.value;softRecalc()"></div>
-   <div class="field"><label>Grower return price ($/lb)</label><input type="number" value="${b.ch_price||0.85}" step="0.01" onchange="blocks.find(x=>x.id==${b.id}).ch_price=+this.value;softRecalc()"></div>
+   <div class="field"><label for="${uid}_yield">Yield (lbs/acre)</label><input type="number" id="${uid}_yield" value="${b.ch_yield||6000}" step="100" onchange="blocks.find(x=>x.id==${b.id}).ch_yield=+this.value;softRecalc()"></div>
+   <div class="field"><label for="${uid}_price">Grower return price ($/lb)</label><input type="number" id="${uid}_price" value="${b.ch_price||0.85}" step="0.01" onchange="blocks.find(x=>x.id==${b.id}).ch_price=+this.value;softRecalc()"></div>
    `:''}
    ${isPear?`
-   <div class="field"><label>Yield (bins/acre)</label><input type="number" value="${b.pe_yield_bins||45}" step="1" onchange="blocks.find(x=>x.id==${b.id}).pe_yield_bins=+this.value;softRecalc()"></div>
-   <div class="field"><label>Grower return price ($/bin)</label><input type="number" value="${b.pe_price_bin||250}" step="5" onchange="blocks.find(x=>x.id==${b.id}).pe_price_bin=+this.value;softRecalc()"></div>
+   <div class="field"><label for="${uid}_yield">Yield (bins/acre)</label><input type="number" id="${uid}_yield" value="${b.pe_yield_bins||45}" step="1" onchange="blocks.find(x=>x.id==${b.id}).pe_yield_bins=+this.value;softRecalc()"></div>
+   <div class="field"><label for="${uid}_price">Grower return price ($/bin)</label><input type="number" id="${uid}_price" value="${b.pe_price_bin||250}" step="5" onchange="blocks.find(x=>x.id==${b.id}).pe_price_bin=+this.value;softRecalc()"></div>
    `:''}
    ${isApple?`
-   <div class="field"><label>Yield (bins/acre)</label><input type="number" value="${b.ap_yield_bins||60}" step="1" onchange="blocks.find(x=>x.id==${b.id}).ap_yield_bins=+this.value;softRecalc()"></div>
-   <div class="field"><label>Grower return price ($/bin)</label><input type="number" value="${b.ap_price_bin||250}" step="5" onchange="blocks.find(x=>x.id==${b.id}).ap_price_bin=+this.value;softRecalc()"></div>
+   <div class="field"><label for="${uid}_yield">Yield (bins/acre)</label><input type="number" id="${uid}_yield" value="${b.ap_yield_bins||60}" step="1" onchange="blocks.find(x=>x.id==${b.id}).ap_yield_bins=+this.value;softRecalc()"></div>
+   <div class="field"><label for="${uid}_price">Grower return price ($/bin)</label><input type="number" id="${uid}_price" value="${b.ap_price_bin||250}" step="5" onchange="blocks.find(x=>x.id==${b.id}).ap_price_bin=+this.value;softRecalc()"></div>
    `:''}
   </div>
   <details data-block-id="${b.id}">
@@ -394,21 +404,21 @@ function renderBlocks(){
    <div style="margin-top:10px">
     <div class="sec-lbl">Variable costs ($/acre) <span class="badge badge-var">stop when block removed</span></div>
     <div class="g3" style="margin-bottom:10px">
-     <div class="field"><label>Non-harvest labor</label><input type="number" value="${b.vc_labor||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_labor=+this.value;softRecalc()"></div>
-     <div class="field"><label>Chemicals</label><input type="number" value="${b.vc_spray||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_spray=+this.value;softRecalc()"></div>
-     <div class="field"><label>Fertilizer</label><input type="number" value="${b.vc_fert||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_fert=+this.value;softRecalc()"></div>
+     <div class="field"><label for="${uid}_labor">Non-harvest labor</label><input type="number" id="${uid}_labor" value="${b.vc_labor||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_labor=+this.value;softRecalc()"></div>
+     <div class="field"><label for="${uid}_spray">Chemicals</label><input type="number" id="${uid}_spray" value="${b.vc_spray||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_spray=+this.value;softRecalc()"></div>
+     <div class="field"><label for="${uid}_fert">Fertilizer</label><input type="number" id="${uid}_fert" value="${b.vc_fert||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_fert=+this.value;softRecalc()"></div>
     </div>
     <div class="g3" style="margin-bottom:6px">
      <div class="field"><label>Harvest</label><input type="number" value="${b.vc_harvest||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_harvest=+this.value;softRecalc()"></div>
      <div class="field"><label>Miscellaneous Variable Costs</label><input type="number" value="${b.vc_misc||0}" step="5" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_misc=+this.value;softRecalc()"></div>
     </div>
     <div class="g2" style="margin-bottom:6px">
-     <div class="field"><label>Total variable cost/acre</label><input readonly value="${fmt$(vc(b))}" data-vc-total="${b.id}" style="background:#e8f4fd;font-weight:700;font-family:monospace"></div>
+     <div class="field"><label for="${uid}_vc_total">Total variable cost/acre</label><input type="number" id="${uid}_vc_total" readonly value="${fmt$(vc(b))}" data-vc-total="${b.id}" style="background:#e8f4fd;font-weight:700;font-family:monospace"></div>
     </div>
     <div class="sec-lbl" style="margin-top:10px">Block-level fixed costs ($/acre)</div>
     <div class="g2">
-     <div class="field"><label>Land rent / opportunity cost</label>
-      <input type="number" value="${b.lc_land||0}" step="10" class="fix-inp" onchange="blocks.find(x=>x.id==${b.id}).lc_land=+this.value;softRecalc()">
+     <div class="field"><label for="${uid}_land">Land rent / opportunity cost</label>
+      <input type="number" id="${uid}_land" value="${b.lc_land||0}" step="10" class="fix-inp" onchange="blocks.find(x=>x.id==${b.id}).lc_land=+this.value;softRecalc()">
       <span class="field-hint">Cash rent or opportunity cost of owned land</span>
      </div>
      <div class="field"><label>Other block-specific fixed costs</label>
@@ -647,19 +657,19 @@ function renderRemoval(){
     <div class="divider"></div>
     <div class="sec-lbl">Break-even prices (${beLabel})</div>
     <div class="impact-row">
-     <div class="impact-lbl">Over harvest cost only<div style="font-size:0.7rem;color:#999">Immediate floor — below this, don't pick</div></div>
+     <div class="impact-lbl">Over harvest cost only<div class="be-desc">Immediate floor — below this, don't pick</div></div>
      <div class="impact-val ${beHarvest!==null&&curPrice>=beHarvest?'pos':'neg'}">${fmtBE(beHarvest,beUnit)}</div>
     </div>
     <div class="impact-row">
-     <div class="impact-lbl">Over variable costs only<div style="font-size:0.7rem;color:#999">Short-run floor</div></div>
+     <div class="impact-lbl">Over variable costs only<div class="be-desc">Short-run floor</div></div>
      <div class="impact-val ${beVar!==null&&curPrice>=beVar?'pos':'neg'}">${fmtBE(beVar,beUnit)}</div>
     </div>
     <div class="impact-row">
-     <div class="impact-lbl">Over variable + block-level fixed<div style="font-size:0.7rem;color:#999">Covers variable costs + land rent</div></div>
+     <div class="impact-lbl">Over variable + block-level fixed<div class="be-desc">Covers variable costs + land rent</div></div>
      <div class="impact-val ${beVarFixed!==null&&curPrice>=beVarFixed?'pos':'neg'}">${fmtBE(beVarFixed,beUnit)}</div>
     </div>
     <div class="impact-row">
-     <div class="impact-lbl">Over total costs (incl. shared fixed)<div style="font-size:0.7rem;color:#999">Long-run viability threshold</div></div>
+     <div class="impact-lbl">Over total costs (incl. shared fixed)<div class="be-desc">Long-run viability threshold</div></div>
      <div class="impact-val ${beTotal!==null&&curPrice>=beTotal?'pos':'neg'}">${fmtBE(beTotal,beUnit)}</div>
     </div>
     <div class="impact-row"><div class="impact-lbl">Current price</div><div class="impact-val" style="font-weight:700">$${curPrice.toFixed(2)} ${beUnit}</div></div>
@@ -771,41 +781,93 @@ function recalc(){
 }
 
 // ── Save / Load ───────────────────────────────────────────────────────────────
-function saveJSON(){
+function saveCSV(){
  const farmName=prompt('Enter a name for this farm (used as filename):','My Farm');
  if(!farmName)return;
- const data={farmName,savedAt:new Date().toISOString(),
-  fixedCosts:{asset_val:gv('fc_asset_val'),opp_rate:gv('fc_opp_rate'),
-   irrig:gv('fc_irrig'),housing:gv('fc_housing'),deprec:gv('fc_deprec'),
-   mgmt:gv('fc_mgmt'),insur:gv('fc_insur'),other:gv('fc_other')},blocks};
- const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+ let csv='Farm Name,'+farmName+'\n';
+ csv+='Saved Date,'+new Date().toLocaleDateString()+'\n\n';
+ csv+='FIXED COSTS\n';
+ csv+='Asset Value,$,'+gv('fc_asset_val')+'\n';
+ csv+='Interest Rate,%,'+gv('fc_opp_rate')+'\n';
+ csv+='Irrigation,$,'+gv('fc_irrig')+'\n';
+ csv+='Housing,$,'+gv('fc_housing')+'\n';
+ csv+='Machinery Reserve,$,'+gv('fc_deprec')+'\n';
+ csv+='Management & Admin,$,'+gv('fc_mgmt')+'\n';
+ csv+='Insurance,$,'+gv('fc_insur')+'\n';
+ csv+='Other Fixed,$,'+gv('fc_other')+'\n\n';
+ csv+='BLOCKS\n';
+ csv+='Block ID,Name,Crop,Acres,VC Labor,VC Spray,VC Fert,VC Harvest,VC Misc,LC Land,LC Other,Cherry Yield,Cherry Price,Pear Yield,Pear Price,Apple Yield,Apple Price,Excluded\n';
+ blocks.forEach((b,i)=>{
+  csv+=`BLK-${String(i+1).padStart(2,'0')},"${b.name}",${b.crop},${b.acres},${b.vc_labor||0},${b.vc_spray||0},${b.vc_fert||0},${b.vc_harvest||0},${b.vc_misc||0},${b.lc_land||0},${b.lc_other||0},${b.ch_yield||0},${b.ch_price||0},${b.pe_yield_bins||0},${b.pe_price_bin||0},${b.ap_yield_bins||0},${b.ap_price_bin||0},${b.excluded?'yes':'no'}\n`;
+ });
+ const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
  const url=URL.createObjectURL(blob);
  const a=document.createElement('a');a.href=url;
- a.download=(farmName.replace(/[^a-z0-9]/gi,'_').toLowerCase())+'_orchard_budget.json';
+ a.download=(farmName.replace(/[^a-z0-9]/gi,'_').toLowerCase())+'_orchard_budget.csv';
  a.click();URL.revokeObjectURL(url);
 }
-function loadJSON(input){
+function loadCSV(input){
  const file=input.files[0];if(!file)return;
  const reader=new FileReader();
  reader.onload=function(e){
   try{
-   const data=JSON.parse(e.target.result);
-   if(!data.blocks||!Array.isArray(data.blocks))throw new Error('Invalid');
-   if(data.fixedCosts){
-    const fc=data.fixedCosts;
+   const lines=e.target.result.trim().split('\n');
+   let farmName='unknown farm',fixedCosts={};
+   let inBlocks=false,newBlocks=[];
+   
+   for(let i=0;i<lines.length;i++){
+    const line=lines[i].trim();
+    if(!line)continue;
+    
+    if(line.startsWith('Farm Name,')){farmName=line.substring(10).trim();continue;}
+    if(line==='BLOCKS'){inBlocks=true;continue;}
+    if(inBlocks&&line.startsWith('Block ID'))continue;
+    
+    if(inBlocks&&line.startsWith('BLK-')){
+     const match=line.match(/^BLK-\d+,"?([^"]*)"?,(\w+),(\d+\.?\d*),(.+)$/);
+     if(!match)continue;
+     const parts=line.split(',');
+     const name=(match[1]||'').trim();
+     const crop=match[2];
+     const acres=+match[3];
+     const numericParts=line.substring(line.indexOf(crop)+crop.length).split(',').map(x=>+x.trim()||0);
+     
+     const b={
+      id:newBlocks.length,name:name,crop:crop,acres:acres,
+      vc_labor:numericParts[0],vc_spray:numericParts[1],vc_fert:numericParts[2],vc_harvest:numericParts[3],vc_misc:numericParts[4],
+      lc_land:numericParts[5],lc_other:numericParts[6],
+      ch_yield:numericParts[7],ch_price:numericParts[8],
+      pe_yield_bins:numericParts[9],pe_price_bin:numericParts[10],
+      ap_yield_bins:numericParts[11],ap_price_bin:numericParts[12],
+      excluded:line.endsWith('yes')
+     };
+     newBlocks.push(b);
+    }
+    else if(!inBlocks&&line.includes(',$,')){
+     const parts=line.split(',');
+     const costMap={'Asset Value':'asset_val','Interest Rate':'opp_rate','Irrigation':'irrig','Housing':'housing',
+      'Machinery Reserve':'deprec','Management & Admin':'mgmt','Insurance':'insur','Other Fixed':'other'};
+     const key=costMap[parts[0]];
+     if(key)fixedCosts[key]=+parts[2];
+    }
+   }
+   
+   if(newBlocks.length===0)throw new Error('No blocks found');
+   
+   if(Object.keys(fixedCosts).length>0){
     ['asset_val','opp_rate','irrig','housing','deprec','mgmt','insur','other'].forEach(k=>{
      const el=document.getElementById('fc_'+k);
-     if(el&&fc[k]!==undefined)el.value=fc[k];
+     if(el&&fixedCosts[k]!==undefined)el.value=fixedCosts[k];
     });
    }
-   // Migrate older saves lacking apple fields
-   blocks=data.blocks.map(b=>({ap_yield_bins:60,ap_price_bin:250,...b}));
+   
+   blocks=newBlocks.map(b=>({ap_yield_bins:b.ap_yield_bins||60,ap_price_bin:b.ap_price_bin||250,...b}));
    nextId=Math.max(...blocks.map(b=>b.id))+1;
    activeCherryBlock=-1;activePearBlock=-1;activeAppleBlock=-1;
    activeRemovalBlock=blocks.find(b=>!b.excluded)?.id||blocks[0].id;
    recalc();
-   alert('Data loaded: '+(data.farmName||'unknown farm')+(data.savedAt?' (saved '+new Date(data.savedAt).toLocaleDateString()+')':''));
-  } catch(err){alert('Could not load file.');}
+   alert('Data loaded: '+farmName);
+  } catch(err){alert('Could not load file. Make sure it\'s a valid CSV from this tool.');}
  };
  reader.readAsText(file);input.value='';
 }
