@@ -21,8 +21,8 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--cream);color:var(-
 .header{background:var(--forest);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:60px;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100}
 .header-title{font-size:1.2rem;font-weight:700;color:#fff;letter-spacing:-.3px}
 .header-sub{font-size:0.72rem;color:#fff;text-transform:uppercase;letter-spacing:.5px;opacity:0.85}
-.tabbar{display:flex;background:var(--forest);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 28px}
-.tabbar-btn{padding:10px 20px;font-size:0.83rem;font-weight:600;color:rgba(255,255,255,0.55);cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;border-top:none;border-left:none;border-right:none;background:none;letter-spacing:.2px}
+.tabbar{display:flex;background:var(--forest);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 28px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tabbar-btn{padding:10px 20px;font-size:0.83rem;font-weight:600;color:rgba(255,255,255,0.55);cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;border-top:none;border-left:none;border-right:none;background:none;letter-spacing:.2px;flex-shrink:0}
 .tabbar-btn:hover{color:#fff}
 .tabbar-btn.active{color:#fff;border-bottom-color:var(--gold)}
 .tabbar-btn.cherry-tab.active{border-bottom-color:#ce93d8}
@@ -115,7 +115,7 @@ details[open] summary::before{content:"▼ "}
 .tooltip-help{position:relative;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#e0e0e0;color:#333;font-size:0.7rem;font-weight:700;cursor:help;margin-left:4px}
 .tooltip-help:hover::after{content:attr(data-tip);position:absolute;bottom:125%;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:6px 10px;border-radius:4px;font-size:0.7rem;font-weight:400;white-space:nowrap;z-index:1000;text-transform:none}
 .tooltip-help:hover::before{content:'';position:absolute;bottom:120%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#333;z-index:1000}
-@media(max-width:700px){.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.g2{grid-template-columns:1fr}.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}}
 </style>
  <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KJV2XKTNXR"></script>
