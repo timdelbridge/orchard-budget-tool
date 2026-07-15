@@ -211,13 +211,11 @@ details[open] summary::before{content:"▼ "}
     <div class="sec-lbl">Yield range (lbs/acre)</div>
     <div class="sl-row"><label for="ch_y_min">Minimum</label><input type="range" id="ch_y_min" min="3000" max="20000" step="500" value="7000" oninput="renderCherrySens()"><span class="sl-val" id="ch_y_min_v">7,000</span></div>
     <div class="sl-row"><label for="ch_y_max">Maximum</label><input type="range" id="ch_y_max" min="3000" max="20000" step="500" value="21000" oninput="renderCherrySens()"><span class="sl-val" id="ch_y_max_v">21,000</span></div>
-    <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>14,000 lbs/acre</strong></div>
    </div>
    <div>
     <div class="sec-lbl">Price range ($/lb)</div>
     <div class="sl-row"><label for="ch_p_min">Minimum</label><input type="range" id="ch_p_min" min="0.30" max="2.50" step="0.05" value="0.40" oninput="renderCherrySens()"><span class="sl-val" id="ch_p_min_v">$0.40</span></div>
     <div class="sl-row"><label for="ch_p_max">Maximum</label><input type="range" id="ch_p_max" min="0.30" max="2.50" step="0.05" value="1.60" oninput="renderCherrySens()"><span class="sl-val" id="ch_p_max_v">$1.60</span></div>
-    <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>$0.85/lb</strong></div>
    </div>
   </div>
   <div class="sec-lbl">Net return ($/acre) at each yield × price combination</div>
@@ -237,13 +235,11 @@ details[open] summary::before{content:"▼ "}
     <div class="sec-lbl">Yield range (bins/acre)</div>
     <div class="sl-row"><label for="pe_y_min">Minimum</label><input type="range" id="pe_y_min" min="10" max="100" step="5" value="20" oninput="renderPearSens()"><span class="sl-val" id="pe_y_min_v">20</span></div>
     <div class="sl-row"><label for="pe_y_max">Maximum</label><input type="range" id="pe_y_max" min="10" max="100" step="5" value="70" oninput="renderPearSens()"><span class="sl-val" id="pe_y_max_v">70</span></div>
-    <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>45 bins/acre</strong></div>
    </div>
    <div>
     <div class="sec-lbl">Price range ($/bin)</div>
     <div class="sl-row"><label for="pe_p_min">Minimum</label><input type="range" id="pe_p_min" min="50" max="500" step="10" value="100" oninput="renderPearSens()"><span class="sl-val" id="pe_p_min_v">$100</span></div>
     <div class="sl-row"><label for="pe_p_max">Maximum</label><input type="range" id="pe_p_max" min="50" max="500" step="10" value="400" oninput="renderPearSens()"><span class="sl-val" id="pe_p_max_v">$400</span></div>
-    <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>$250/bin</strong></div>
    </div>
   </div>
   <div class="sec-lbl">Net return ($/acre) at each yield × price combination</div>
@@ -263,13 +259,11 @@ details[open] summary::before{content:"▼ "}
     <div class="sec-lbl">Yield range (bins/acre)</div>
     <div class="sl-row"><label for="ap_y_min">Minimum</label><input type="range" id="ap_y_min" min="10" max="150" step="5" value="30" oninput="renderAppleSens()"><span class="sl-val" id="ap_y_min_v">30</span></div>
     <div class="sl-row"><label for="ap_y_max">Maximum</label><input type="range" id="ap_y_max" min="10" max="150" step="5" value="90" oninput="renderAppleSens()"><span class="sl-val" id="ap_y_max_v">90</span></div>
-    <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>60 bins/acre</strong></div>
    </div>
    <div>
     <div class="sec-lbl">Price range ($/bin)</div>
     <div class="sl-row"><label for="ap_p_min">Minimum</label><input type="range" id="ap_p_min" min="50" max="600" step="10" value="100" oninput="renderAppleSens()"><span class="sl-val" id="ap_p_min_v">$100</span></div>
     <div class="sl-row"><label for="ap_p_max">Maximum</label><input type="range" id="ap_p_max" min="50" max="600" step="10" value="400" oninput="renderAppleSens()"><span class="sl-val" id="ap_p_max_v">$400</span></div>
-    <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">Mid-range benchmark: <strong>$250/bin</strong></div>
    </div>
   </div>
   <div class="sec-lbl">Net return ($/acre) at each yield × price combination</div>
@@ -331,7 +325,7 @@ function totalAcres(excl=-1){return blocks.filter(b=>b.id!==excl&&!b.excluded).r
 function fpa(excl=-1){const ta=totalAcres(excl);return ta>0?totalFC_base()/ta:0;}
 function totalFC(){return totalFC_base()+blocks.filter(b=>!b.excluded).reduce((s,b)=>s+(+b.lc_land||0)*(+b.acres||0),0);}
 function vc(b){return (+b.vc_labor||0)+(+b.vc_spray||0)+(+b.vc_fert||0)+(+b.vc_harvest||0)+(+b.vc_misc||0);}
-function lc(b){return (+b.lc_land||0)+(+b.lc_other||0);}
+function lc(b){return (+b.lc_land||0);}
 function cropIcon(crop){return '';}
 
 function cherryRev(b,yld,price){
@@ -410,21 +404,17 @@ function renderBlocks(){
     </div>
     <div class="g3" style="margin-bottom:6px">
      <div class="field"><label>Harvest</label><input type="number" value="${b.vc_harvest||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_harvest=+this.value;softRecalc()"></div>
-     <div class="field"><label>Miscellaneous Variable Costs</label><input type="number" value="${b.vc_misc||0}" step="5" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_misc=+this.value;softRecalc()"></div>
+     <div class="field"><label>Other variable costs</label><input type="number" value="${b.vc_misc||0}" step="5" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_misc=+this.value;softRecalc()">
+      <span class="field-hint">e.g. crop insurance, miscellaneous</span>
+     </div>
     </div>
-    <div class="g2" style="margin-bottom:6px">
-     <div class="field"><label for="${uid}_vc_total">Total variable cost/acre</label><input type="number" id="${uid}_vc_total" readonly value="${fmt$(vc(b))}" data-vc-total="${b.id}" style="background:#e8f4fd;font-weight:700;font-family:monospace"></div>
+    <div style="margin-top:6px;margin-bottom:6px;font-size:0.78rem;color:var(--slate)">
+     Total variable cost/acre: <strong id="${uid}_vc_total" data-vc-total="${b.id}" style="font-family:monospace;color:var(--charcoal)">${fmt$(vc(b))}</strong>
     </div>
     <div class="sec-lbl" style="margin-top:10px">Block-level fixed costs ($/acre)</div>
-    <div class="g2">
-     <div class="field"><label for="${uid}_land">Land rent / opportunity cost</label>
-      <input type="number" id="${uid}_land" value="${b.lc_land||0}" step="10" class="fix-inp" onchange="blocks.find(x=>x.id==${b.id}).lc_land=+this.value;softRecalc()">
-      <span class="field-hint">Cash rent or opportunity cost of owned land</span>
-     </div>
-     <div class="field"><label>Other block-specific fixed costs</label>
-      <input type="number" value="${b.lc_other||0}" step="10" class="fix-inp" onchange="blocks.find(x=>x.id==${b.id}).lc_other=+this.value;softRecalc()">
-      <span class="field-hint">e.g. crop insurance, irrigation district fees</span>
-     </div>
+    <div class="field"><label for="${uid}_land">Land rent / opportunity cost</label>
+     <input type="number" id="${uid}_land" value="${b.lc_land||0}" step="10" class="fix-inp" onchange="blocks.find(x=>x.id==${b.id}).lc_land=+this.value;softRecalc()">
+     <span class="field-hint">Cash rent or opportunity cost of owned land</span>
     </div>
    </div>
   </details>`;
@@ -482,8 +472,12 @@ function heatColor(net,minNet,maxNet){
 
 function buildHeatmap(b,yields,prices,revFn,yFmt,pFmt,currentY,currentP){
  const f=fpa();
- const costs=vc(b)+lc(b)+f;
- const grid=prices.map(p=>yields.map(y=>revFn(b,y,p)-costs));
+ // Harvest cost scales with yield: back out an implied $/unit harvest rate from the
+ // per-acre harvest cost entered on the Setup page (which is calibrated to the block's
+ // current yield), then rebuild harvest cost at each yield level in the grid below.
+ const harvestRate=currentY>0?(+b.vc_harvest||0)/currentY:0;
+ const nonHarvestCosts=vc(b)-(+b.vc_harvest||0)+lc(b)+f;
+ const grid=prices.map(p=>yields.map(y=>revFn(b,y,p)-(nonHarvestCosts+harvestRate*y)));
  const allNets=grid.flat();
  const minNet=Math.min(...allNets),maxNet=Math.max(...allNets);
  let html=`<table class="heat-tbl"><thead><tr><th style="min-width:80px">Price ↓ / Yield →</th>`;
@@ -502,7 +496,7 @@ function buildHeatmap(b,yields,prices,revFn,yFmt,pFmt,currentY,currentP){
   html+=`</tr>`;
  });
  html+=`</tbody></table>`;
- return{html,allNets,costs};
+ return{html,allNets};
 }
 
 // ── Sensitivity tabs ──────────────────────────────────────────────────────────
@@ -524,15 +518,10 @@ function renderCherrySens(){
  const yields=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round((yMin+i*yStep)/500)*500))];
  const prices=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round((pMin+i*pStep)*20)/20))];
  const cY=+b.ch_yield||14000,cP=+b.ch_price||0.85;
- const{html,allNets,costs}=buildHeatmap(b,yields,prices,(bl,y,p)=>cherryRev(bl,y,p),y=>y.toLocaleString()+' lbs',p=>'$'+p.toFixed(2),cY,cP);
+ const{html}=buildHeatmap(b,yields,prices,(bl,y,p)=>cherryRev(bl,y,p),y=>y.toLocaleString()+' lbs',p=>'$'+p.toFixed(2),cY,cP);
  document.getElementById('cherry-heat').innerHTML=html;
- const prof=Math.round(allNets.filter(n=>n>=0).length/allNets.length*100);
- const vcB=vc(b);
  document.getElementById('cherry-sens-note').innerHTML=
-  `<strong>${b.name}</strong> is profitable in <strong>${prof}%</strong> of combinations shown. &nbsp;
-  Break-even price (variable costs only): <strong>$${cY>0?(vcB/cY).toFixed(3):'—'}/lb</strong> &nbsp;·&nbsp;
-  Break-even price (all costs): <strong>$${cY>0?(costs/cY).toFixed(3):'—'}/lb</strong> at ${cY.toLocaleString()} lbs/acre.
-  <br>Bold-bordered cell = current assumptions. Benchmarks: 14,000 lbs/acre · $0.85/lb.`;
+  `Bold-bordered cell = current assumptions for <strong>${b.name}</strong>.`;
 }
 
 function renderPearSens(){
@@ -553,15 +542,10 @@ function renderPearSens(){
  const yields=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round(yMin+i*yStep)))];
  const prices=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round((pMin+i*pStep)/10)*10))];
  const cY=+b.pe_yield_bins||45,cP=+b.pe_price_bin||250;
- const{html,allNets,costs}=buildHeatmap(b,yields,prices,(bl,y,p)=>pearRev(bl,y,p),y=>y+' bins',p=>'$'+p+'/bin',cY,cP);
+ const{html}=buildHeatmap(b,yields,prices,(bl,y,p)=>pearRev(bl,y,p),y=>y+' bins',p=>'$'+p+'/bin',cY,cP);
  document.getElementById('pear-heat').innerHTML=html;
- const prof=Math.round(allNets.filter(n=>n>=0).length/allNets.length*100);
- const vcB=vc(b);
  document.getElementById('pear-sens-note').innerHTML=
-  `<strong>${b.name}</strong> is profitable in <strong>${prof}%</strong> of combinations shown. &nbsp;
-  Break-even yield (variable costs only): <strong>${cP>0?(vcB/cP).toFixed(1):'—'} bins/acre</strong> &nbsp;·&nbsp;
-  Break-even yield (all costs): <strong>${cP>0?(costs/cP).toFixed(1):'—'} bins/acre</strong> at $${cP}/bin.
-  <br>Bold-bordered cell = current assumptions. Benchmarks: 45 bins/acre · $250/bin.`;
+  `Bold-bordered cell = current assumptions for <strong>${b.name}</strong>.`;
 }
 
 function renderAppleSens(){
@@ -582,15 +566,10 @@ function renderAppleSens(){
  const yields=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round(yMin+i*yStep)))];
  const prices=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round((pMin+i*pStep)/10)*10))];
  const cY=+b.ap_yield_bins||60,cP=+b.ap_price_bin||250;
- const{html,allNets,costs}=buildHeatmap(b,yields,prices,(bl,y,p)=>appleRev(bl,y,p),y=>y+' bins',p=>'$'+p+'/bin',cY,cP);
+ const{html}=buildHeatmap(b,yields,prices,(bl,y,p)=>appleRev(bl,y,p),y=>y+' bins',p=>'$'+p+'/bin',cY,cP);
  document.getElementById('apple-heat').innerHTML=html;
- const prof=Math.round(allNets.filter(n=>n>=0).length/allNets.length*100);
- const vcB=vc(b);
  document.getElementById('apple-sens-note').innerHTML=
-  `<strong>${b.name}</strong> is profitable in <strong>${prof}%</strong> of combinations shown. &nbsp;
-  Break-even yield (variable costs only): <strong>${cP>0?(vcB/cP).toFixed(1):'—'} bins/acre</strong> &nbsp;·&nbsp;
-  Break-even yield (all costs): <strong>${cP>0?(costs/cP).toFixed(1):'—'} bins/acre</strong> at $${cP}/bin.
-  <br>Bold-bordered cell = current assumptions. Benchmarks: 60 bins/acre · $250/bin. Adjust sliders for your variety and market channel.`;
+  `Bold-bordered cell = current assumptions for <strong>${b.name}</strong>.`;
 }
 
 // ── Removal tab ───────────────────────────────────────────────────────────────
@@ -648,12 +627,9 @@ function renderRemoval(){
     <div class="sec-lbl">This block's economics</div>
     <div class="impact-row"><div class="impact-lbl">Revenue/acre</div><div class="impact-val pos">${fmt$(Math.round(rev))}</div></div>
     <div class="impact-row"><div class="impact-lbl">Variable costs/acre</div><div class="impact-val">${fmt$(Math.round(vcB))}</div></div>
-    <div class="impact-row"><div class="impact-lbl">Land rent + other fixed/acre</div><div class="impact-val">${fmt$(Math.round(lcB))}</div></div>
+    <div class="impact-row"><div class="impact-lbl">Land rent (block-specific fixed)</div><div class="impact-val">${fmt$(Math.round(lcB))}</div></div>
     <div class="impact-row"><div class="impact-lbl">Shared fixed cost/acre (current)</div><div class="impact-val">${fmt$(Math.round(fpa_before))}</div></div>
     <div class="impact-row"><div class="impact-lbl">Net return/acre (current)</div><div class="impact-val ${blockNet(b,fpa_before)>=0?'pos':'neg'}">${fmt$(Math.round(blockNet(b,fpa_before)))}</div></div>
-    <div class="divider"></div>
-    <div class="impact-row"><div class="impact-lbl">Variable cost coverage ratio</div><div class="impact-val ${varCov>=1?'pos':'neg'}">${varCov.toFixed(2)}x ${varCov>=1?'✓':''}</div></div>
-    <div class="impact-row"><div class="impact-lbl">Full cost coverage ratio</div><div class="impact-val ${fullCov>=1?'pos':'neg'}">${fullCov.toFixed(2)}x ${fullCov>=1?'✓':''}</div></div>
     <div class="divider"></div>
     <div class="sec-lbl">Break-even prices (${beLabel})</div>
     <div class="impact-row">
@@ -760,7 +736,7 @@ function showTab(name,el){
 function softRecalc(){
  blocks.forEach(b=>{
   const el=document.querySelector(`[data-vc-total="${b.id}"]`);
-  if(el)el.value=fmt$(vc(b));
+  if(el)el.textContent=fmt$(vc(b));
  });
  renderFarmSummary();
  if(document.getElementById('tab-cherry').style.display!=='none')renderCherrySens();
