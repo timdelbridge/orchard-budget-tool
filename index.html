@@ -208,14 +208,12 @@ details[open] summary::before{content:"▼ "}
  <div class="card card-cherry">
   <div class="g2" style="margin-bottom:14px">
    <div>
-    <div class="sec-lbl">Yield range (lbs/acre)</div>
-    <div class="sl-row"><label for="ch_y_min">Minimum</label><input type="range" id="ch_y_min" min="3000" max="20000" step="500" value="7000" oninput="renderCherrySens()"><span class="sl-val" id="ch_y_min_v">7,000</span></div>
-    <div class="sl-row"><label for="ch_y_max">Maximum</label><input type="range" id="ch_y_max" min="3000" max="20000" step="500" value="21000" oninput="renderCherrySens()"><span class="sl-val" id="ch_y_max_v">21,000</span></div>
+    <div class="sec-lbl">Yield range to explore</div>
+    <div class="sl-row"><label for="ch_y_spread">± around current</label><input type="range" id="ch_y_spread" min="10" max="70" step="5" value="40" oninput="renderCherrySens()"><span class="sl-val" id="ch_y_spread_v">±40%</span></div>
    </div>
    <div>
-    <div class="sec-lbl">Price range ($/lb)</div>
-    <div class="sl-row"><label for="ch_p_min">Minimum</label><input type="range" id="ch_p_min" min="0.30" max="2.50" step="0.05" value="0.40" oninput="renderCherrySens()"><span class="sl-val" id="ch_p_min_v">$0.40</span></div>
-    <div class="sl-row"><label for="ch_p_max">Maximum</label><input type="range" id="ch_p_max" min="0.30" max="2.50" step="0.05" value="1.60" oninput="renderCherrySens()"><span class="sl-val" id="ch_p_max_v">$1.60</span></div>
+    <div class="sec-lbl">Price range to explore</div>
+    <div class="sl-row"><label for="ch_p_spread">± around current</label><input type="range" id="ch_p_spread" min="10" max="70" step="5" value="40" oninput="renderCherrySens()"><span class="sl-val" id="ch_p_spread_v">±40%</span></div>
    </div>
   </div>
   <div class="sec-lbl">Net return ($/acre) at each yield × price combination</div>
@@ -232,14 +230,12 @@ details[open] summary::before{content:"▼ "}
  <div class="card card-pear">
   <div class="g2" style="margin-bottom:14px">
    <div>
-    <div class="sec-lbl">Yield range (bins/acre)</div>
-    <div class="sl-row"><label for="pe_y_min">Minimum</label><input type="range" id="pe_y_min" min="10" max="100" step="5" value="20" oninput="renderPearSens()"><span class="sl-val" id="pe_y_min_v">20</span></div>
-    <div class="sl-row"><label for="pe_y_max">Maximum</label><input type="range" id="pe_y_max" min="10" max="100" step="5" value="70" oninput="renderPearSens()"><span class="sl-val" id="pe_y_max_v">70</span></div>
+    <div class="sec-lbl">Yield range to explore</div>
+    <div class="sl-row"><label for="pe_y_spread">± around current</label><input type="range" id="pe_y_spread" min="10" max="70" step="5" value="40" oninput="renderPearSens()"><span class="sl-val" id="pe_y_spread_v">±40%</span></div>
    </div>
    <div>
-    <div class="sec-lbl">Price range ($/bin)</div>
-    <div class="sl-row"><label for="pe_p_min">Minimum</label><input type="range" id="pe_p_min" min="50" max="500" step="10" value="100" oninput="renderPearSens()"><span class="sl-val" id="pe_p_min_v">$100</span></div>
-    <div class="sl-row"><label for="pe_p_max">Maximum</label><input type="range" id="pe_p_max" min="50" max="500" step="10" value="400" oninput="renderPearSens()"><span class="sl-val" id="pe_p_max_v">$400</span></div>
+    <div class="sec-lbl">Price range to explore</div>
+    <div class="sl-row"><label for="pe_p_spread">± around current</label><input type="range" id="pe_p_spread" min="10" max="70" step="5" value="40" oninput="renderPearSens()"><span class="sl-val" id="pe_p_spread_v">±40%</span></div>
    </div>
   </div>
   <div class="sec-lbl">Net return ($/acre) at each yield × price combination</div>
@@ -256,14 +252,12 @@ details[open] summary::before{content:"▼ "}
  <div class="card card-apple">
   <div class="g2" style="margin-bottom:14px">
    <div>
-    <div class="sec-lbl">Yield range (bins/acre)</div>
-    <div class="sl-row"><label for="ap_y_min">Minimum</label><input type="range" id="ap_y_min" min="10" max="150" step="5" value="30" oninput="renderAppleSens()"><span class="sl-val" id="ap_y_min_v">30</span></div>
-    <div class="sl-row"><label for="ap_y_max">Maximum</label><input type="range" id="ap_y_max" min="10" max="150" step="5" value="90" oninput="renderAppleSens()"><span class="sl-val" id="ap_y_max_v">90</span></div>
+    <div class="sec-lbl">Yield range to explore</div>
+    <div class="sl-row"><label for="ap_y_spread">± around current</label><input type="range" id="ap_y_spread" min="10" max="70" step="5" value="40" oninput="renderAppleSens()"><span class="sl-val" id="ap_y_spread_v">±40%</span></div>
    </div>
    <div>
-    <div class="sec-lbl">Price range ($/bin)</div>
-    <div class="sl-row"><label for="ap_p_min">Minimum</label><input type="range" id="ap_p_min" min="50" max="600" step="10" value="100" oninput="renderAppleSens()"><span class="sl-val" id="ap_p_min_v">$100</span></div>
-    <div class="sl-row"><label for="ap_p_max">Maximum</label><input type="range" id="ap_p_max" min="50" max="600" step="10" value="400" oninput="renderAppleSens()"><span class="sl-val" id="ap_p_max_v">$400</span></div>
+    <div class="sec-lbl">Price range to explore</div>
+    <div class="sl-row"><label for="ap_p_spread">± around current</label><input type="range" id="ap_p_spread" min="10" max="70" step="5" value="40" oninput="renderAppleSens()"><span class="sl-val" id="ap_p_spread_v">±40%</span></div>
    </div>
   </div>
   <div class="sec-lbl">Net return ($/acre) at each yield × price combination</div>
@@ -470,6 +464,15 @@ function heatColor(net,minNet,maxNet){
  }
 }
 
+// Builds 7 grid points symmetric around `current`, spanning exactly ±spreadPct%.
+// `current` itself is always exactly the middle point, which is what guarantees the
+// block's actual assumptions always land on a real cell. Rounding for clean display
+// happens separately, after this, so it never distorts the requested spread.
+function centeredRange(current,spreadPct){
+ const step=(current*spreadPct/100)/3;
+ return [-3,-2,-1,0,1,2,3].map(i=>Math.max(0,current+i*step));
+}
+
 function buildHeatmap(b,yields,prices,revFn,yFmt,pFmt,currentY,currentP){
  const f=fpa();
  // Harvest cost scales with yield: back out an implied $/unit harvest rate from the
@@ -508,16 +511,12 @@ function renderCherrySens(){
   `<button class="blk-btn ${b.id===activeCherryBlock?'active':''}" onclick="activeCherryBlock=${b.id};renderCherrySens()" style="${b.excluded?'opacity:0.5;text-decoration:line-through':''}">${b.name} (${b.acres}ac)</button>`
  ).join('');
  const b=cb.find(x=>x.id===activeCherryBlock);
- const yMin=gv('ch_y_min'),yMax=gv('ch_y_max'),pMin=gv('ch_p_min'),pMax=gv('ch_p_max');
- document.getElementById('ch_y_min_v').textContent=yMin.toLocaleString()+' lbs';
- document.getElementById('ch_y_max_v').textContent=yMax.toLocaleString()+' lbs';
- document.getElementById('ch_p_min_v').textContent='$'+pMin.toFixed(2);
- document.getElementById('ch_p_max_v').textContent='$'+pMax.toFixed(2);
- const yStep=Math.round((yMax-yMin)/6/500)*500||500;
- const pStep=Math.round(((pMax-pMin)/6)*20)/20||0.05;
- const yields=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round((yMin+i*yStep)/500)*500))];
- const prices=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round((pMin+i*pStep)*20)/20))];
  const cY=+b.ch_yield||14000,cP=+b.ch_price||0.85;
+ const ySpread=gv('ch_y_spread'),pSpread=gv('ch_p_spread');
+ document.getElementById('ch_y_spread_v').textContent='±'+ySpread+'%';
+ document.getElementById('ch_p_spread_v').textContent='±'+pSpread+'%';
+ const yields=centeredRange(cY,ySpread).map(v=>Math.round(v));
+ const prices=centeredRange(cP,pSpread).map(v=>Math.round(v*100)/100);
  const{html}=buildHeatmap(b,yields,prices,(bl,y,p)=>cherryRev(bl,y,p),y=>y.toLocaleString()+' lbs',p=>'$'+p.toFixed(2),cY,cP);
  document.getElementById('cherry-heat').innerHTML=html;
  document.getElementById('cherry-sens-note').innerHTML=
@@ -532,16 +531,12 @@ function renderPearSens(){
   `<button class="blk-btn ${b.id===activePearBlock?'active':''}" onclick="activePearBlock=${b.id};renderPearSens()" style="${b.excluded?'opacity:0.5;text-decoration:line-through':''}">${b.name} (${b.acres}ac)</button>`
  ).join('');
  const b=pb.find(x=>x.id===activePearBlock);
- const yMin=gv('pe_y_min'),yMax=gv('pe_y_max'),pMin=gv('pe_p_min'),pMax=gv('pe_p_max');
- document.getElementById('pe_y_min_v').textContent=yMin+' bins';
- document.getElementById('pe_y_max_v').textContent=yMax+' bins';
- document.getElementById('pe_p_min_v').textContent='$'+pMin;
- document.getElementById('pe_p_max_v').textContent='$'+pMax;
- const yStep=Math.max(5,Math.round((yMax-yMin)/6/5)*5);
- const pStep=Math.max(10,Math.round((pMax-pMin)/6/10)*10);
- const yields=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round(yMin+i*yStep)))];
- const prices=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round((pMin+i*pStep)/10)*10))];
  const cY=+b.pe_yield_bins||45,cP=+b.pe_price_bin||250;
+ const ySpread=gv('pe_y_spread'),pSpread=gv('pe_p_spread');
+ document.getElementById('pe_y_spread_v').textContent='±'+ySpread+'%';
+ document.getElementById('pe_p_spread_v').textContent='±'+pSpread+'%';
+ const yields=centeredRange(cY,ySpread).map(v=>Math.round(v));
+ const prices=centeredRange(cP,pSpread).map(v=>Math.round(v));
  const{html}=buildHeatmap(b,yields,prices,(bl,y,p)=>pearRev(bl,y,p),y=>y+' bins',p=>'$'+p+'/bin',cY,cP);
  document.getElementById('pear-heat').innerHTML=html;
  document.getElementById('pear-sens-note').innerHTML=
@@ -556,16 +551,12 @@ function renderAppleSens(){
   `<button class="blk-btn ${b.id===activeAppleBlock?'active':''}" onclick="activeAppleBlock=${b.id};renderAppleSens()" style="${b.excluded?'opacity:0.5;text-decoration:line-through':''}">${b.name} (${b.acres}ac)</button>`
  ).join('');
  const b=ab.find(x=>x.id===activeAppleBlock);
- const yMin=gv('ap_y_min'),yMax=gv('ap_y_max'),pMin=gv('ap_p_min'),pMax=gv('ap_p_max');
- document.getElementById('ap_y_min_v').textContent=yMin+' bins';
- document.getElementById('ap_y_max_v').textContent=yMax+' bins';
- document.getElementById('ap_p_min_v').textContent='$'+pMin;
- document.getElementById('ap_p_max_v').textContent='$'+pMax;
- const yStep=Math.max(5,Math.round((yMax-yMin)/6/5)*5);
- const pStep=Math.max(10,Math.round((pMax-pMin)/6/10)*10);
- const yields=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round(yMin+i*yStep)))];
- const prices=[...new Set([0,1,2,3,4,5,6].map(i=>Math.round((pMin+i*pStep)/10)*10))];
  const cY=+b.ap_yield_bins||60,cP=+b.ap_price_bin||250;
+ const ySpread=gv('ap_y_spread'),pSpread=gv('ap_p_spread');
+ document.getElementById('ap_y_spread_v').textContent='±'+ySpread+'%';
+ document.getElementById('ap_p_spread_v').textContent='±'+pSpread+'%';
+ const yields=centeredRange(cY,ySpread).map(v=>Math.round(v));
+ const prices=centeredRange(cP,pSpread).map(v=>Math.round(v));
  const{html}=buildHeatmap(b,yields,prices,(bl,y,p)=>appleRev(bl,y,p),y=>y+' bins',p=>'$'+p+'/bin',cY,cP);
  document.getElementById('apple-heat').innerHTML=html;
  document.getElementById('apple-sens-note').innerHTML=
