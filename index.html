@@ -525,7 +525,7 @@ function renderCherrySens(){
 
 function renderPearSens(){
  const pb=blocks.filter(b=>b.crop==='Pear');
- if(!pb.length){document.getElementById('pear-heat').innerHTML=`<div class="info-box">No pear blocks defined.</div>`;return;}
+ if(!pb.length){document.getElementById('pear-heat').innerHTML=`<div class="info-box">No pear blocks defined. Add a pear block in Farm Setup.</div>`;return;}
  if(activePearBlock<0||!pb.find(b=>b.id===activePearBlock))activePearBlock=pb[0].id;
  document.getElementById('pear-block-btns').innerHTML=pb.map(b=>
   `<button class="blk-btn ${b.id===activePearBlock?'active':''}" onclick="activePearBlock=${b.id};renderPearSens()" style="${b.excluded?'opacity:0.5;text-decoration:line-through':''}">${b.name} (${b.acres}ac)</button>`
