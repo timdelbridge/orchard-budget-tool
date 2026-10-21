@@ -156,7 +156,7 @@ details[open] summary::before{content:"▼ "}
   <div class="info-box" style="margin-bottom:14px">These costs continue regardless of how many blocks you farm and are allocated equally per acre. When a block is removed they get spread across fewer acres, raising costs for every remaining block.</div>
   <div class="sec-lbl">Cost of capital</div>
   <div class="g3" style="margin-bottom:14px">
-   <div class="field"><label>Value of long-term assets </label>
+   <div class="field"><label for="fc_asset_val">Value of long-term assets </label>
     <input type="number" id="fc_asset_val" value="500000" step="10000" class="fix-inp" onchange="recalc()">
     <span class="field-hint">Equipment + orchard infrastructure (not land). Use current market value rather than book value.</span>
    </div>
@@ -171,14 +171,14 @@ details[open] summary::before{content:"▼ "}
   </div>
   <div class="sec-lbl">Other farm-wide fixed costs</div>
   <div class="g3" style="margin-bottom:10px">
-   <div class="field"><label>Irrigation (total farm)</label><input type="number" id="fc_irrig" value="40000" step="500" class="fix-inp" onchange="recalc()"></div>
-   <div class="field"><label>Housing</label><input type="number" id="fc_housing" value="40000" step="500" class="fix-inp" onchange="recalc()"></div>
-   <div class="field"><label>Machinery replacement costs (annualized)</label><input type="number" id="fc_deprec" value="20000" step="500" class="fix-inp" onchange="recalc()">
+   <div class="field"><label for="fc_irrig">Irrigation (total farm)</label><input type="number" id="fc_irrig" value="40000" step="500" class="fix-inp" onchange="recalc()"></div>
+   <div class="field"><label for="fc_housing">Housing</label><input type="number" id="fc_housing" value="40000" step="500" class="fix-inp" onchange="recalc()"></div>
+   <div class="field"><label for="fc_deprec">Machinery replacement costs (annualized)</label><input type="number" id="fc_deprec" value="20000" step="500" class="fix-inp" onchange="recalc()">
     <span class="field-hint">Annual cost of replacing/overhauling equipment — not tax depreciation</span>
    </div>
-   <div class="field"><label>Management &amp; administration</label><input type="number" id="fc_mgmt" value="70000" step="1000" class="fix-inp" onchange="recalc()"></div>
-   <div class="field"><label>Farm insurance</label><input type="number" id="fc_insur" value="64000" step="1000" class="fix-inp" onchange="recalc()"></div>
-   <div class="field"><label>Other shared fixed costs</label><input type="number" id="fc_other" value="98000" step="1000" class="fix-inp" onchange="recalc()"></div>
+   <div class="field"><label for="fc_mgmt">Management &amp; administration</label><input type="number" id="fc_mgmt" value="70000" step="1000" class="fix-inp" onchange="recalc()"></div>
+   <div class="field"><label for="fc_insur">Farm insurance</label><input type="number" id="fc_insur" value="64000" step="1000" class="fix-inp" onchange="recalc()"></div>
+   <div class="field"><label for="fc_other">Other shared fixed costs</label><input type="number" id="fc_other" value="98000" step="1000" class="fix-inp" onchange="recalc()"></div>
   </div>
   <div style="margin-top:10px;font-size:0.78rem;color:var(--slate);display:flex;gap:24px;flex-wrap:wrap">
    <span>Total farm fixed costs: <strong id="fc_total_disp">—</strong></span>
@@ -397,8 +397,8 @@ function renderBlocks(){
      <div class="field"><label for="${uid}_fert">Fertilizer</label><input type="number" id="${uid}_fert" value="${b.vc_fert||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_fert=+this.value;softRecalc()"></div>
     </div>
     <div class="g3" style="margin-bottom:6px">
-     <div class="field"><label>Harvest</label><input type="number" value="${b.vc_harvest||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_harvest=+this.value;softRecalc()"></div>
-     <div class="field"><label>Other variable costs</label><input type="number" value="${b.vc_misc||0}" step="5" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_misc=+this.value;softRecalc()">
+     <div class="field"><label for="${uid}_harvest">Harvest</label><input type="number" id="${uid}_harvest" value="${b.vc_harvest||0}" step="10" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_harvest=+this.value;softRecalc()"></div>
+     <div class="field"><label for="${uid}_misc">Other variable costs</label><input type="number" id="${uid}_misc" value="${b.vc_misc||0}" step="5" class="var-inp" onchange="blocks.find(x=>x.id==${b.id}).vc_misc=+this.value;softRecalc()">
       <span class="field-hint">e.g. crop insurance, miscellaneous</span>
      </div>
     </div>
